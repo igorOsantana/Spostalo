@@ -32,3 +32,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+styles/Home.module.css
+styles/globals.css
+src/pages/index.tsx
+pages/api/hello.js
+pages/index.js
+pages/_app.js
