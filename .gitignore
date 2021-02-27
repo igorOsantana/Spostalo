@@ -38,3 +38,5 @@ src/pages/index.tsx
 pages/api/hello.js
 pages/index.js
 pages/_app.js
+
+.vercel
