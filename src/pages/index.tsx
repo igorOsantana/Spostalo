@@ -7,7 +7,7 @@ import { GetServerSideProps } from 'next';
 import { ChallengesProvider } from "../contexts/ChallengesContext";
 import { CountdownProvider } from "../contexts/CountdownContext";
 import Head from 'next/head';
-import styles from '../styles/Pages/Home.module.css';
+import styles from '../styles/pages/Home.module.css';
 import React from "react";
 
 interface HomeProps {
