@@ -10,7 +10,7 @@ import { ChallengeBox } from "../components/ChallengeBox";
 import { ConfigButton } from '../components/ConfigButton';
 import { ChallengesProvider } from "../contexts/ChallengesContext";
 import { CountdownProvider } from "../contexts/CountdownContext";
-import ToggleContext from '../contexts/ToggleContext.jsx'
+import ToggleContext from '../contexts/ToggleContext'
 
 
 interface HomeProps {

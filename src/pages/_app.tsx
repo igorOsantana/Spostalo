@@ -5,7 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import { useState } from 'react';
 import light from '../styles/themes/light';
 import dark from '../styles/themes/dark';
-import ToggleContext from '../contexts/ToggleContext.jsx'
+import ToggleContext from '../contexts/ToggleContext'
 
 function MyApp({ Component, pageProps }) {
   const [theme, setTheme] = useState(light);
@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <ToggleContext.Provider value={{toggleTheme}}>
+        <ToggleContext.Provider value={{ toggleTheme }}>
           <GlobalStyle />
           <Component {...pageProps} />
         </ToggleContext.Provider>
