@@ -1,14 +1,19 @@
+import styles from '../styles/pages/Home.module.css';
+import Head from 'next/head';
+import React from "react";
+import light from '../styles/themes/light';
+import dark from '../styles/themes/dark';
+import { GetServerSideProps } from 'next';
 import { CompletedChallenges } from "../components/CompletedChallenges";
 import { ExperienceBar } from "../components/ExperienceBar";
 import { Profile } from '../components/Profile';
 import { Countdown } from '../components/Countdown';
 import { ChallengeBox } from "../components/ChallengeBox";
-import { GetServerSideProps } from 'next';
+import { ConfigButton } from '../components/ConfigButton';
 import { ChallengesProvider } from "../contexts/ChallengesContext";
 import { CountdownProvider } from "../contexts/CountdownContext";
-import Head from 'next/head';
-import styles from '../styles/pages/Home.module.css';
-import React from "react";
+import { useState } from 'react';
+import { ThemeProvider } from 'styled-components';
 
 interface HomeProps {
   level: number;
@@ -17,32 +22,42 @@ interface HomeProps {
 }
 
 export default function Home(props: HomeProps) {
+  const [theme, setTheme] = useState(light);
+  const toggleTheme = () => {
+    setTheme(theme.title === 'light' ? dark : light);
+  }
   return (
-    <ChallengesProvider
-      level={props.level}
-      currentExperience={props.currentExperience}
-      challengesCompleted={props.challengesCompleted}
-    >
-      <div className={styles.container}>
-        <Head>
-          <title>Início | Spostalo</title>
-        </Head>
-        <ExperienceBar />
-
-        <CountdownProvider>
-          <section>
-            <div>
-              <Profile />
-              <CompletedChallenges />
-              <Countdown />
-            </div>
-            <div>
-              <ChallengeBox />
-            </div>
-          </section>
-        </CountdownProvider>
-      </div>
-    </ChallengesProvider>
+    <>
+      <ThemeProvider theme={theme}>
+        <ChallengesProvider
+          level={props.level}
+          currentExperience={props.currentExperience}
+          challengesCompleted={props.challengesCompleted}
+        >
+          <div className={styles.container}>
+            <Head>
+              <title>Início | Spostalo</title>
+            </Head>
+            <header className={styles.header}>
+              <ExperienceBar />
+              <ConfigButton toggleTheme={toggleTheme} />
+            </header>
+            <CountdownProvider>
+              <section>
+                <div>
+                  <Profile />
+                  <CompletedChallenges />
+                  <Countdown />
+                </div>
+                <div>
+                  <ChallengeBox />
+                </div>
+              </section>
+            </CountdownProvider>
+          </div>
+        </ChallengesProvider>
+      </ThemeProvider>
+    </>
   )
 }
 
