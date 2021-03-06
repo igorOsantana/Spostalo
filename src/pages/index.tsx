@@ -1,6 +1,6 @@
 import styles from '../styles/pages/Home.module.css';
 import Head from 'next/head';
-import React from "react";
+import React, { useContext } from "react";
 import { GetServerSideProps } from 'next';
 import { CompletedChallenges } from "../components/CompletedChallenges";
 import { ExperienceBar } from "../components/ExperienceBar";
@@ -10,6 +10,8 @@ import { ChallengeBox } from "../components/ChallengeBox";
 import { ConfigButton } from '../components/ConfigButton';
 import { ChallengesProvider } from "../contexts/ChallengesContext";
 import { CountdownProvider } from "../contexts/CountdownContext";
+import ToggleContext from '../contexts/ToggleContext.jsx'
+
 
 interface HomeProps {
   level: number;
@@ -19,7 +21,7 @@ interface HomeProps {
 }
 
 export default function Home(props: HomeProps) {
-
+  const { toggleTheme } = useContext(ToggleContext)
   return (
     <>
       <ChallengesProvider
@@ -33,7 +35,7 @@ export default function Home(props: HomeProps) {
           </Head>
           <header className={styles.header}>
             <ExperienceBar />
-            <ConfigButton toggleTheme={props.toggleTheme} />
+            <ConfigButton toggleTheme={toggleTheme} />
           </header>
           <CountdownProvider>
             <section>
