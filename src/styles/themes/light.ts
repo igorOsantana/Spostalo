@@ -6,13 +6,14 @@ const light = {
             text: '#666666',
             colorWhite: '#fff',
             colorGrayLine: '#b4b6bb',
-            colorTextHighlight: '#b3b9ff',
+            colorTextHighlight: '#dedbd2',
             colorTitle: '#2e384d',
             colorRed: '#e83f5b',
             colorBlue: '#5965e0',
             colorGreen: '#4cd62b',
             colorBlueDark: '#4953b8',
-            colorBlueTwitter: '#2aa9e0'
+            colorBlueTwitter: '#2aa9e0',
+            colorGrayChallenges: '#d7d8da'
         }
 }
 

@@ -2,17 +2,18 @@ const dark = {
     title: 'dark',
 
         colors:{
-            background:'#1F2041',
-            text: '#E2DBBE',
-            colorWhite: '#fff',
-            colorGrayLine: '#b4b6bb',
-            colorTextHighlight: '#b3b9ff',
-            colorTitle: '#2e384d',
+            background:'#2e3138',
+            text: '#dedbd2',
+            colorWhite: '#6c6f7d',
+            colorGrayLine: '#6c6f7d',
+            colorTextHighlight: '#dedbd2',
+            colorTitle: '#dedbd2',
             colorRed: '#e83f5b',
-            colorBlue: '#5965e0',
+            colorBlue: '#EB0A98',
             colorGreen: '#4cd62b',
-            colorBlueDark: '#4953b8',
-            colorBlueTwitter: '#2aa9e0'
+            colorBlueDark: '#F976C9',
+            colorBlueTwitter: '#2aa9e0',
+            colorGrayChallenges:'#fff'
         }
 }
 

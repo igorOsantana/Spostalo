@@ -15,6 +15,7 @@ declare module 'styled-components' {
             colorGreen: string;
             colorBlueDark: string;
             colorBlueTwitter: string;
+            colorGrayChallenges: string;
         }
     }
 }

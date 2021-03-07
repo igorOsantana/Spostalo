@@ -2,7 +2,7 @@
 import React, { useContext, useState } from 'react';
 import Switch from 'react-switch'
 import { ThemeContext } from 'styled-components';
-import { ButtonConfigNotSelected, ButtonConfigIsSelected, Dropdown /*, SwitchTheme, CheckboxTheme, SliderSwitchTheme*/ } from '../components/SettingsButton';
+import { ButtonConfigNotSelected, ButtonConfigIsSelected, Dropdown } from '../styles/components/ConfigButton.moduleCss';
 
 interface ConfigButtonProps {
     toggleTheme(): void;
