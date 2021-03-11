@@ -1,4 +1,4 @@
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider, DefaultTheme } from 'styled-components';
 import { usePersistedState } from '../utils/usePersistedState';
 import GlobalStyle from '../styles/global';
 import light from '../styles/themes/light';
@@ -6,7 +6,7 @@ import dark from '../styles/themes/dark';
 import ToggleContext from '../contexts/ToggleContext'
 
 function MyApp({ Component, pageProps }) {
-  const [theme, setTheme] = usePersistedState('theme', light);
+  const [theme, setTheme] = usePersistedState<DefaultTheme>('theme', light);
   const toggleTheme = () => {
     setTheme(theme.title === 'light' ? dark : light);
   }
@@ -19,8 +19,6 @@ function MyApp({ Component, pageProps }) {
           <Component {...pageProps} />
         </ToggleContext.Provider>
       </ThemeProvider>
-
-
     </div>
   )
 }

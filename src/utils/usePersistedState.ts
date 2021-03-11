@@ -1,18 +1,29 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect, Dispatch, SetStateAction} from 'react';
 
-export function usePersistedState (key: string, initialState: any) {
-    const [state, setState] = useState(()=>{
-        const storageValue = localStorage.getItem(key);
+type Response<T> = [
+    T,
+    Dispatch<SetStateAction<T>>,
+];
 
-        if(storageValue) {
-            return JSON.parse(storageValue);
-        } else {
+// const ISSERVER = typeof window === "undefined";
+
+export function usePersistedState<T>(key: string, initialState: T): Response<T> {
+    
+    const [state, setState] = useState<T>(() => {
+        try{
+            const storageValue = localStorage.getItem(key);
+        
+            return storageValue ? JSON.parse(storageValue) : initialState;
+        } catch (error) {
+            console.log(error);
             return initialState;
         }
-    })
-    useEffect(()=>{
-        localStorage.setItem(key, JSON.stringify(state));
-    },[key, state]);
+    });
 
-    return [state, setState];
+        useEffect(()=>{
+            localStorage.setItem(key, JSON.stringify(state));
+        },[state]);
+
+        return [state, setState];
+
 }
