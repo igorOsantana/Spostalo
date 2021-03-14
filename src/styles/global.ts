@@ -14,6 +14,12 @@ export default createGlobalStyle`
   }
 }
 
+@media(max-width: 480px) {
+  html {
+    font-size: 80.25%;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;

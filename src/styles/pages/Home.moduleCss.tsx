@@ -22,4 +22,13 @@ export const Container = styled.div`
     gap: 6.25rem;
     align-content: center;
   }
+
+  @media(max-width: 700px) {
+    section {
+      display: flex;
+      flex-wrap: wrap ;
+      justify-content: center;
+      margin: 0 4rem;
+    }
+  }
 `
