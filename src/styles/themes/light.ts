@@ -2,16 +2,16 @@ const light = {
     title: 'light',
 
         colors:{
-            background:'#d5d9dd',
-            text: '#666666',
-            colorWhite: '#fff',
-            colorGrayLine: '#b4b6bb',
+            background:'#f1faee',
+            text: '#3B3B3B',
+            colorWhite: '#D7D9D6',
+            colorGrayLine: '#D7D9D6',
             colorTextHighlight: '#dedbd2',
-            colorTitle: '#2e384d',
+            colorTitle: '#000000',
             colorRed: '#e83f5b',
-            colorBlue: '#5965e0',
+            colorBlue: '#C104F1',
             colorGreen: '#4cd62b',
-            colorBlueDark: '#4953b8',
+            colorBlueDark: '#D744FC',
             colorBlueTwitter: '#2aa9e0',
             colorGrayChallenges: '#d7d8da'
         }

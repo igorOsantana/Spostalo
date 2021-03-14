@@ -9,7 +9,13 @@ export const ButtonConfigNotSelected = styled.button`
     outline: none;
   
     background: ${props => props.theme.colors.background};
-    background-image: url("/icons/config.png");
+    background-image: ${({ title }) => {
+        if (title === 'light') {
+            return 'url("/icons/configLight.png")'
+        } else {
+            return 'url("/icons/configDark.png")'
+        }
+    }};
     background-repeat: no-repeat;
     background-size: 1.3rem;
     background-position: center;
@@ -37,7 +43,13 @@ export const ButtonConfigIsSelected = styled.button`
     outline: none;
   
     background: ${props => props.theme.colors.background};
-    background-image: url("/icons/config.png");
+    background-image: ${({ title }) => {
+        if (title === 'light') {
+            return 'url("/icons/configLight.png")'
+        } else {
+            return 'url("/icons/configDark.png")'
+        }
+    }};
     background-repeat: no-repeat;
     background-size: 1.3rem;
     background-position: center;

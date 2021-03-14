@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { CountdownContext } from '../contexts/CountdownContext';
-// import styles from '../styles/components/Countdown.module.css';
 import { CountdownButton, CountdownButtonActive, CountdownContainer } from '../styles/components/Countdown.moduleCss';
 
 export function Countdown() {
@@ -51,6 +50,6 @@ export function Countdown() {
                     }
                 </>
             )}
-        </div >
+        </div>
     );
 }

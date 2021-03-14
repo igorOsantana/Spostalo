@@ -17,11 +17,10 @@ interface HomeProps {
   level: number;
   currentExperience: number;
   challengesCompleted: number;
-  toggleTheme: () => void;
 }
 
 export default function Home(props: HomeProps) {
-  const { toggleTheme } = useContext(ToggleContext)
+  const { toggleTheme } = useContext(ToggleContext);
   return (
     <>
       <ChallengesProvider
