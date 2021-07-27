@@ -3,7 +3,8 @@ import { usePersistedState } from '../utils/usePersistedState';
 import GlobalStyle from '../styles/global';
 import light from '../styles/themes/light';
 import dark from '../styles/themes/dark';
-import ToggleContext from '../contexts/ToggleContext'
+import ToggleContext from '../contexts/ToggleContext';
+import { BrowserRouter, Router, Switch } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 function MyApp({ Component, pageProps }) {
@@ -20,14 +21,18 @@ function MyApp({ Component, pageProps }) {
   }, [])
 
   return (
-    <div>
+    <>
       <ThemeProvider theme={theme}>
-        <ToggleContext.Provider value={{ toggleTheme }}>
-          <GlobalStyle />
-          {isMounted && <Component {...pageProps} />}
-        </ToggleContext.Provider>
+        <BrowserRouter>
+          <Switch>
+            <ToggleContext.Provider value={{ toggleTheme }}>
+              <GlobalStyle />
+              {isMounted && <Component {...pageProps} />}
+            </ToggleContext.Provider>
+            </Switch>
+        </BrowserRouter>
       </ThemeProvider>
-    </div>
+    </>
   )
 }
 
