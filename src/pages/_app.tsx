@@ -1,8 +1,8 @@
 import { ThemeProvider, DefaultTheme } from 'styled-components';
 import { usePersistedState } from '../hooks/usePersistedState';
-import GlobalStyle from '../global/styles/global';
-import light from '../global/styles/themes/light';
-import dark from '../global/styles/themes/dark';
+import GlobalStyle from '../styles/global';
+import light from '../styles/themes/light';
+import dark from '../styles/themes/dark';
 import ToggleContext from '../contexts/ToggleContext';
 import { useEffect, useState } from 'react';
 
