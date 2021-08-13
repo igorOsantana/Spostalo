@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const ProfileContainer = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
 
@@ -24,4 +25,10 @@ export const ProfileContainer = styled.div`
       }
     }
   }
-`
+
+  & > :last-child {
+    position: absolute;
+    top: 0;
+    right: -10px;
+  }
+`;

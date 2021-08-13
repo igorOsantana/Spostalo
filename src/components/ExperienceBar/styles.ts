@@ -24,11 +24,11 @@ export const HeaderExperienceBar = styled.header`
       background: ${props => props.theme.colors.colorGreen};
     }
   }
-`
+`;
 
 export const CurrentExperience = styled.span`
   position: absolute;
   top: 12px;
   transform: translateX(-50%);
   font-size: 0.8rem;
-`
+`;
