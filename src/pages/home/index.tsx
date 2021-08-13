@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
-import { Container, Header } from './styles';
+import { Container, Header } from './_styles';
 import { GetServerSideProps } from 'next';
 import { CompletedChallenges } from '../../components/CompletedChallenges';
 import { ExperienceBar } from '../../components/ExperienceBar';
