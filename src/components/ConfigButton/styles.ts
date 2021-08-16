@@ -88,13 +88,10 @@ export const ButtonConfigIsSelected = styled.button`
   outline: none;
 
   background: ${props => props.theme.colors.background};
-  background-image: ${({ title }) => {
-    if (title === 'light') {
-      return 'url("/icons/configLight.png")';
-    } else {
-      return 'url("/icons/configDark.png")';
-    }
-  }};
+  background-image: ${({ title }) =>
+    title === 'light'
+      ? 'url("/icons/configLight.png")'
+      : 'url("/icons/configDark.png")'};
   background-repeat: no-repeat;
   background-size: 1.3rem;
   background-position: center;
