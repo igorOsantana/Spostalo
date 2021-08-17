@@ -19,14 +19,12 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <>
-      <ThemeProvider theme={theme}>
-        <ToggleContext.Provider value={{ toggleTheme }}>
-          <GlobalStyle />
-          {isMounted && <Component {...pageProps} />}
-        </ToggleContext.Provider>
-      </ThemeProvider>
-    </>
+    <ThemeProvider theme={theme}>
+      <ToggleContext.Provider value={{ toggleTheme }}>
+        <GlobalStyle />
+        {isMounted && <Component {...pageProps} />}
+      </ToggleContext.Provider>
+    </ThemeProvider>
   );
 }
 
