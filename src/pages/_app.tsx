@@ -1,10 +1,13 @@
-import { ThemeProvider, DefaultTheme } from 'styled-components';
+import { useEffect, useState } from 'react';
 import { usePersistedState } from '../hooks/usePersistedState';
+import ToggleContext from '../contexts/ToggleContext';
+import { Provider as ReduxProvider } from 'react-redux';
+import { store } from '../store';
+
+import { ThemeProvider, DefaultTheme } from 'styled-components';
 import GlobalStyle from '../styles/global';
 import light from '../styles/themes/light';
 import dark from '../styles/themes/dark';
-import ToggleContext from '../contexts/ToggleContext';
-import { useEffect, useState } from 'react';
 
 function MyApp({ Component, pageProps }) {
   const [theme, setTheme] = usePersistedState<DefaultTheme>('theme', light);
@@ -19,12 +22,14 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <ToggleContext.Provider value={{ toggleTheme }}>
-        <GlobalStyle />
-        {isMounted && <Component {...pageProps} />}
-      </ToggleContext.Provider>
-    </ThemeProvider>
+    <ReduxProvider store={store}>
+      <ThemeProvider theme={theme}>
+        <ToggleContext.Provider value={{ toggleTheme }}>
+          <GlobalStyle />
+          {isMounted && <Component {...pageProps} />}
+        </ToggleContext.Provider>
+      </ThemeProvider>
+    </ReduxProvider>
   );
 }
 

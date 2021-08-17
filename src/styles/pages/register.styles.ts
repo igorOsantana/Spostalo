@@ -1,4 +1,9 @@
 import styled from 'styled-components';
+import { shake } from '../animations';
+
+type LoadingProps = {
+  isLoading: boolean;
+};
 
 export const Body = styled.main`
   min-height: 100vh;
@@ -19,7 +24,8 @@ export const Container = styled.div`
   justify-content: center;
 `;
 
-export const Form = styled.form`
+export const ContentForm = styled.div<LoadingProps>`
+  margin: 2rem;
   padding: 1rem 1.5rem;
   display: flex;
   flex-direction: column;
@@ -29,11 +35,10 @@ export const Form = styled.form`
   max-width: 700px;
   border: 1px solid ${({ theme: { colors } }) => colors.colorGrayLine};
   border-radius: 5px;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.8);
   -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
   transition: all 0.3s;
-  opacity: 0.9;
 
   h1 {
     white-space: nowrap;
@@ -44,75 +49,70 @@ export const Form = styled.form`
 
   p {
     font-size: min(1.25rem, 4vw);
-    font-weight: bold;
     text-align: center;
     margin: 0 0 1rem 0;
-    color: ${({ theme: { colors } }) => colors.colorRed};
   }
 
-  label {
-    width: 90%;
-    padding: 0.75rem 1rem;
-    margin: 1rem;
-    border-radius: 5px;
-    color: #fff;
-    background-color: ${({ theme: { colors } }) => colors.text};
-    font-size: min(1rem, 5vw);
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
-    &:hover {
-      background-color: ${({ theme: { colors } }) => colors.colorTitle};
-    }
-
-    &:active {
-      transform: translateY(5px);
-    }
-
-    input[type='file'] {
-      display: none;
-    }
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 1rem;
   }
 `;
 
-export const Input = styled.input`
-  padding: 0.5rem 0.75rem;
-  margin: 0.25rem 0;
-  width: 90%;
-  height: 3rem;
-  background-color: transparent;
-  border: 2px solid ${({ theme: { colors } }) => colors.colorGrayLine};
-  border-radius: 5px;
-  outline: none;
-  transition: all 0.3s;
+export const AvatarContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  margin: 1rem;
+`;
 
-  &::placeholder {
-    font-size: min(1rem, 5vw);
-    color: ${({ theme: { colors } }) => colors.text};
-    text-transform: capitalize;
-    opacity: 0.7;
-    transition: all 0.3s;
+export const ImageAvatar = styled.img`
+  width: 25%;
+  height: 25%;
+  border-radius: 50%;
+`;
+
+export const FileAvatar = styled.label`
+  width: 60%;
+  height: min-content;
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  color: #fff;
+  background-color: ${({ theme: { colors } }) => colors.text};
+  font-size: min(1rem, 5vw);
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: ${({ theme: { colors } }) => colors.colorTitle};
   }
 
-  &:focus {
-    border-color: ${({ theme: { colors } }) => colors.text};
+  &:active {
+    transform: translateY(5px);
+  }
 
-    &::placeholder {
-      font-weight: bold;
-    }
+  input[type='file'] {
+    display: none;
   }
 `;
 
 export const Button = styled.button`
   align-self: flex-end;
-  margin: 1rem 5%;
-  padding: 0.5rem 1.5rem;
+  margin: 1rem 0;
+  padding: 0.5rem 2rem;
   font-size: 1.25rem;
   font-weight: bold;
   border: 1px solid transparent;
   border-radius: 5px;
-  background-color: ${({ theme: { colors } }) => colors.colorRed};
+  background-color: ${({ theme: { colors } }) => colors.colorBlueTwitter};
   color: #fff;
   transition: all 0.3s;
 
@@ -123,4 +123,12 @@ export const Button = styled.button`
   &:active {
     transform: translateY(5px);
   }
+`;
+
+export const ErrorOnSubmit = styled.span`
+  color: ${({ theme: { colors } }) => colors.colorRed};
+  font-weight: bold;
+  text-align: center;
+  margin: 0.5rem 0 auto;
+  animation: ${shake} 0.3s linear;
 `;

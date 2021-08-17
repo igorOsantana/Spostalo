@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Link from 'next/link';
 
 import {
@@ -11,6 +12,9 @@ import {
 export default function Sign() {
   return (
     <Body>
+      <Head>
+        <title>Sign | Spostalo</title>
+      </Head>
       <Container>
         <Form>
           <h1>Spostalo</h1>

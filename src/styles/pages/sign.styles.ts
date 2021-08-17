@@ -31,11 +31,10 @@ export const Form = styled.form`
   max-width: 700px;
   border: 1px solid ${({ theme: { colors } }) => colors.colorGrayLine};
   border-radius: 5px;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.8);
   -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
   transition: all 0.3s;
-  opacity: 0.9;
 
   h1 {
     white-space: nowrap;
@@ -73,6 +72,7 @@ export const Form = styled.form`
 export const Input = styled.input`
   padding: 0.5rem 0.75rem;
   margin: 0.25rem 0;
+  background-color: transparent;
   border: 2px solid ${({ theme: { colors } }) => colors.colorGrayLine};
   border-radius: 5px;
   width: 90%;

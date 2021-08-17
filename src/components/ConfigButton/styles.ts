@@ -130,12 +130,12 @@ export const Dropdown = styled.div`
     justify-content: space-between;
 
     & :last-child {
-      padding: 0 1rem 1rem 1rem;
+      padding: 0 1.5rem 1rem 1.5rem;
     }
   }
 
-  ul li p {
-    margin-right: 1rem;
+  ul li label {
+    flex-grow: 1;
     white-space: nowrap;
   }
 `;

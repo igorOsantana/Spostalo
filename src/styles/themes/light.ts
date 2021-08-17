@@ -14,6 +14,7 @@ const light = {
     colorBlueDark: '#D744FC',
     colorBlueTwitter: '#2aa9e0',
     colorGrayChallenges: '#d7d8da',
+    colorOrange: '#F08D28',
   },
 };
 

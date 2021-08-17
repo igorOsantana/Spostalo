@@ -35,7 +35,7 @@ export function ConfigButton({ toggleTheme }: ConfigButtonProps) {
             <ul>
               <Title>Configurações</Title>
               <li>
-                <p>Tema Dark</p>
+                <label htmlFor='switch-theme'>Tema dark</label>
                 <Switch
                   onChange={toggleTheme}
                   checked={title === 'dark'}
@@ -45,6 +45,7 @@ export function ConfigButton({ toggleTheme }: ConfigButtonProps) {
                   width={36}
                   onColor={colors.colorBlue}
                   offColor={colors.text}
+                  id='switch-theme'
                 />
               </li>
             </ul>

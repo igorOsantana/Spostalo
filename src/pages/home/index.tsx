@@ -25,7 +25,7 @@ export default function Home(props: HomeProps) {
     >
       <Container>
         <Head>
-          <title>Início | Spostalo</title>
+          <title>Home | Spostalo</title>
         </Head>
         <Header>
           <ExperienceBar />
