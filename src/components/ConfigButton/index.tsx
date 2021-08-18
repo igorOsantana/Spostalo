@@ -9,6 +9,8 @@ import {
   Title,
 } from './styles';
 import ClickAwayListener from 'react-click-away-listener';
+import { removeToken } from '../../services/auth';
+import { useRouter } from 'next/router';
 
 interface ConfigButtonProps {
   toggleTheme(): void;
@@ -17,10 +19,16 @@ interface ConfigButtonProps {
 export function ConfigButton({ toggleTheme }: ConfigButtonProps) {
   const [open, setOpen] = useState(false);
   const { colors, title } = useContext(ThemeContext);
+  const route = useRouter();
 
   const toggleButton = () => setOpen(prevState => !prevState);
 
   const handleClickAway = () => setOpen(false);
+
+  const handleLogOut = () => {
+    removeToken();
+    route.push('/sign');
+  };
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
@@ -32,8 +40,8 @@ export function ConfigButton({ toggleTheme }: ConfigButtonProps) {
         )}
         {open && (
           <Dropdown>
+            <Title>Configurações</Title>
             <ul>
-              <Title>Configurações</Title>
               <li>
                 <label htmlFor='switch-theme'>Tema dark</label>
                 <Switch
@@ -48,6 +56,7 @@ export function ConfigButton({ toggleTheme }: ConfigButtonProps) {
                   id='switch-theme'
                 />
               </li>
+              <li onClick={handleLogOut}>Sair</li>
             </ul>
           </Dropdown>
         )}

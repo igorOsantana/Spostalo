@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const HeaderExperienceBar = styled.header`
-  width: 90%;
+  width: 100%;
   display: flex;
   align-items: center;
   padding-bottom: 3rem;
@@ -31,4 +31,5 @@ export const CurrentExperience = styled.span`
   top: 12px;
   transform: translateX(-50%);
   font-size: 0.8rem;
+  font-weight: bold;
 `;

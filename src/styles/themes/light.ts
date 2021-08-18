@@ -2,7 +2,7 @@ const light = {
   title: 'light',
 
   colors: {
-    background: '#f1faee',
+    background: '#fafafa',
     text: '#3B3B3B',
     colorWhite: '#D7D9D6',
     colorGrayLine: '#D7D9D6',

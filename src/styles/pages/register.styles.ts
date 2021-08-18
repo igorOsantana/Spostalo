@@ -17,7 +17,7 @@ export const Body = styled.main`
 export const Container = styled.div`
   height: 100vh;
   max-width: 992px;
-  padding: 2.5rem 2rem;
+  padding: 1rem;
   margin: auto;
   display: flex;
   align-items: center;
@@ -25,6 +25,7 @@ export const Container = styled.div`
 `;
 
 export const ContentForm = styled.div<LoadingProps>`
+  position: relative;
   margin: 2rem;
   padding: 1rem 1.5rem;
   display: flex;
@@ -71,8 +72,8 @@ export const AvatarContent = styled.div`
 `;
 
 export const ImageAvatar = styled.img`
-  width: 25%;
-  height: 25%;
+  width: min(100vw * 0.2, 15vh);
+  height: min(100vw * 0.2, 15vh);
   border-radius: 50%;
 `;
 
@@ -126,9 +127,10 @@ export const Button = styled.button`
 `;
 
 export const ErrorOnSubmit = styled.span`
-  color: ${({ theme: { colors } }) => colors.colorRed};
+  color: red;
+  font-size: min(1.25rem, 4vw);
   font-weight: bold;
   text-align: center;
   margin: 0.5rem 0 auto;
-  animation: ${shake} 0.3s linear;
+  animation: ${shake} 0.5s linear;
 `;

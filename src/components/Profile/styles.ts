@@ -13,8 +13,9 @@ export const ProfileContainer = styled.div`
   > div {
     margin-left: 1.5rem;
     > strong {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: 600;
+      text-transform: capitalize;
       color: ${props => props.theme.colors.colorTitle};
     }
     > p {

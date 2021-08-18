@@ -6,14 +6,19 @@ import ToggleContext from '../../contexts/ToggleContext';
 import { ConfigButton } from '../ConfigButton';
 
 export function Profile() {
-  const { level } = useContext(ChallengesContext);
+  const { avatar, username, level } = useContext(ChallengesContext);
   const { toggleTheme } = useContext(ToggleContext);
+
+  const usernameSplited = username.split(' ');
+  const usernameConverted = `${usernameSplited[0]} ${
+    usernameSplited[usernameSplited.length - 1]
+  }`;
 
   return (
     <ProfileContainer>
-      <img src='https://github.com/igorOsantana.png' alt='Igor Santana' />
+      <img src={avatar} alt='User avatar photo' />
       <div>
-        <strong>Igor Santana</strong>
+        <strong>{usernameConverted}</strong>
         <p>
           <img src='icons/level.svg' alt='Level' />
           Level {level}

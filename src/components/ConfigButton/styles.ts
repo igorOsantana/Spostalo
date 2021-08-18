@@ -128,23 +128,27 @@ export const Dropdown = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
 
-    & :last-child {
-      padding: 0 1.5rem 1rem 1.5rem;
+    &:hover {
+      background-color: ${props => props.theme.colors.text};
+      color: ${props => props.theme.colors.colorWhite};
     }
   }
 
   ul li label {
     flex-grow: 1;
     white-space: nowrap;
+    cursor: pointer;
   }
 `;
 
-export const Title = styled.li`
+export const Title = styled.p`
   font-size: 1.15rem;
   font-weight: bold;
   padding: 1rem;
-  margin-bottom: 1rem;
   border-bottom: 1px solid
     ${({ theme: { colors } }) => colors.colorTextHighlight};
 `;

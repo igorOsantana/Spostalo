@@ -17,7 +17,7 @@ export const Container = styled.div<ErrorProps>`
     background-color: transparent;
     border: 2px solid
       ${({ hasError, theme: { colors } }) =>
-        hasError ? colors.colorRed : colors.colorGrayLine};
+        hasError ? 'red' : colors.colorGrayLine};
     border-radius: 5px;
     outline: none;
     transition: all 0.3s;
@@ -43,7 +43,7 @@ export const Container = styled.div<ErrorProps>`
     align-self: flex-end;
     font-size: min(0.75rem, 3vw);
     font-weight: bold;
-    color: ${({ theme: { colors } }) => colors.colorRed};
+    color: red;
     animation: ${shake} 0.5s ease;
   }
 `;

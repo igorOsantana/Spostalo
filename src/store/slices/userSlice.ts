@@ -1,20 +1,46 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppDispatch } from '..';
 import { setToken } from '../../services/auth';
+import {
+  displayNotificationError,
+  displayNotificationSuccess,
+} from '../../services/notifications';
 
 type SignProps = {
   email: string;
   password: string;
 };
 
-const initialState = {
+export type UserDataProps = {
+  username: string;
+  photoAvatar: string;
+  level?: number;
+  currentExperience?: number;
+  challengesCompleted?: number;
+};
+
+type InitialStateProps = {
+  isLogged: boolean;
+  isLoading: boolean;
+  msgError: string;
+  userData: UserDataProps;
+};
+
+const initialState: InitialStateProps = {
   isLogged: false,
   isLoading: false,
   msgError: '',
+  userData: {
+    username: '',
+    photoAvatar: '',
+    level: 0,
+    currentExperience: 0,
+    challengesCompleted: 0,
+  },
 };
 
-const playerSlice = createSlice({
-  name: 'player',
+const userSlice = createSlice({
+  name: 'user',
   initialState,
   reducers: {
     logIn: state => {
@@ -34,6 +60,9 @@ const playerSlice = createSlice({
     },
     removeMsgError: state => {
       state.msgError = '';
+    },
+    setDatauser: (state, { payload }: PayloadAction<UserDataProps>) => {
+      state.userData = payload;
     },
   },
 });
@@ -60,6 +89,7 @@ export const registerUser = ({ email, password }: SignProps) => {
     const data = await response.json();
 
     if (response.status === 200 && response.ok) {
+      displayNotificationSuccess('Conta criada com sucesso. Redirecionando...');
       const { idToken } = data;
       setToken(idToken);
       dispatch(logIn());
@@ -75,7 +105,7 @@ export const registerUser = ({ email, password }: SignProps) => {
           dispatch(setMsgError('Email inválido'));
           break;
         default:
-          dispatch(setMsgError('Algo deu errado, tente mais tarde'));
+          displayNotificationError('Algo deu errado, tente mais tarde');
       }
     }
     dispatch(removeLoading());
@@ -134,6 +164,7 @@ export const {
   removeLoading,
   setMsgError,
   removeMsgError,
-} = playerSlice.actions;
+  setDatauser,
+} = userSlice.actions;
 
-export default playerSlice.reducer;
+export default userSlice.reducer;

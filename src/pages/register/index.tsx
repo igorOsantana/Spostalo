@@ -16,7 +16,8 @@ import {
   ErrorOnSubmit,
 } from '../../styles/pages/register.styles';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { registerUser } from '../../store/slices/authSlice';
+import { registerUser } from '../../store/slices/userSlice';
+import Loader from '../../components/Loader';
 
 type RegisterFormProps = {
   name: string;
@@ -27,8 +28,8 @@ type RegisterFormProps = {
 
 export default function Register() {
   const [avatarImg, setAvatarImg] = useState<File>();
-  const isLoading = useAppSelector(state => state.auth.isLoading);
-  const msgError = useAppSelector(state => state.auth.msgError);
+  const isLoading = useAppSelector(state => state.user.isLoading);
+  const msgError = useAppSelector(state => state.user.msgError);
 
   const dispatch = useAppDispatch();
 
@@ -112,9 +113,10 @@ export default function Register() {
                   />
                 </FileAvatar>
               </AvatarContent>
-              <Button type='submit'>Salvar</Button>
+              <Button type='submit'>{isLoading ? 'Salvando' : 'Salvar'}</Button>
             </Form>
           </Formik>
+          {isLoading && <Loader />}
         </ContentForm>
       </Container>
     </Body>

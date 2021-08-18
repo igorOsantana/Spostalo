@@ -1,5 +1,11 @@
+import { useEffect } from 'react';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { database } from '../../services/firebase';
+import { setToken, setUserID, TOKEN_KEY } from '../../services/auth';
+import { signInWithGoogle } from '../../services/firebase';
 
 import {
   Body,
@@ -9,7 +15,71 @@ import {
   Button,
 } from '../../styles/pages/sign.styles';
 
-export default function Sign() {
+type CreateUserProps = {
+  userId: string;
+  email: string;
+  username: string;
+  photoURL: string;
+};
+
+type SignProps = {
+  isLogged: boolean;
+};
+
+export default function Sign({ isLogged }: SignProps) {
+  const route = useRouter();
+
+  const handleExistUser = async (userId: string) => {
+    const existUser = await database.ref().child('users').child(userId).get();
+    return existUser.exists();
+  };
+
+  const createUser = ({
+    userId,
+    email,
+    username,
+    photoURL,
+  }: CreateUserProps) => {
+    database
+      .ref()
+      .child('users/' + userId)
+      .set({
+        email,
+        username,
+        photoURL,
+        level: 0,
+        currentExperience: 0,
+        challengesCompleted: 0,
+      });
+  };
+
+  const handleAuthGoogle = () => {
+    signInWithGoogle().then(async response => {
+      const { uid, displayName, photoURL, email } = response.user;
+
+      const idToken = await response.user.getIdToken();
+      setToken(idToken);
+      setUserID(uid);
+
+      const hasUser = await handleExistUser(uid);
+      if (hasUser) {
+        route.push('/home');
+        return;
+      }
+      createUser({
+        userId: uid,
+        email: email,
+        username: displayName,
+        photoURL: photoURL,
+      });
+      route.push('/home');
+    });
+  };
+
+  useEffect(() => {
+    if (isLogged) route.push('/home');
+  }, []);
+
   return (
     <Body>
       <Head>
@@ -26,10 +96,25 @@ export default function Sign() {
           <Input placeholder='Senha' type='password' />
           <div>
             <Link href='/register'>Não tenho conta</Link>
-            <Button>Entrar</Button>
+            <Button type='button' onClick={handleAuthGoogle}>
+              Entrar
+            </Button>
           </div>
         </Form>
       </Container>
     </Body>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ctx => {
+  const userToken = ctx.req.cookies[TOKEN_KEY];
+
+  if (userToken)
+    return { props: {}, redirect: { permanent: true, destination: '/home' } };
+
+  return {
+    props: {
+      isLogged: true,
+    },
+  };
+};

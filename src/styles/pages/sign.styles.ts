@@ -13,7 +13,7 @@ export const Container = styled.div`
   height: 100vh;
   max-width: 992px;
   margin: 0 auto;
-  padding: 0.5rem;
+  padding: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,7 +22,6 @@ export const Container = styled.div`
 export const Form = styled.form`
   flex: 1;
   padding: 1rem 1.5rem;
-  margin: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;

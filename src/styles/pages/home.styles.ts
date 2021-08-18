@@ -5,6 +5,7 @@ export const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 `;
 
 export const Container = styled.div`
@@ -22,6 +23,11 @@ export const Container = styled.div`
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
     align-content: center;
+
+    > div {
+      width: 90%;
+      margin: 0 auto;
+    }
   }
 
   @media (max-width: 800px) {

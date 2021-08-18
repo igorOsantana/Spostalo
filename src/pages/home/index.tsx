@@ -1,7 +1,8 @@
 import Head from 'next/head';
-import React from 'react';
-import { Container, Header } from '../../styles/pages/home.styles';
 import { GetServerSideProps } from 'next';
+import { isAuthenticated, TOKEN_KEY, USER_ID } from '../../services/auth';
+import { database } from '../../services/firebase';
+
 import { CompletedChallenges } from '../../components/CompletedChallenges';
 import { ExperienceBar } from '../../components/ExperienceBar';
 import { Profile } from '../../components/Profile';
@@ -10,18 +11,20 @@ import { ChallengeBox } from '../../components/ChallengeBox';
 import { ChallengesProvider } from '../../contexts/ChallengesContext';
 import { CountdownProvider } from '../../contexts/CountdownContext';
 
-interface HomeProps {
-  level: number;
-  currentExperience: number;
-  challengesCompleted: number;
-}
+import { Container, Header } from '../../styles/pages/home.styles';
 
-export default function Home(props: HomeProps) {
+export default function Home(userData) {
+  console.log(userData);
+  const gameData = {
+    level: userData.level,
+    currentExperience: userData.currentExperience,
+    challengesCompleted: userData.challengesCompleted,
+  };
   return (
     <ChallengesProvider
-      level={props.level}
-      currentExperience={props.currentExperience}
-      challengesCompleted={props.challengesCompleted}
+      username={userData.username}
+      avatar={userData.photoURL}
+      game={gameData}
     >
       <Container>
         <Head>
@@ -48,13 +51,22 @@ export default function Home(props: HomeProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
-  const { level, currentExperience, challengesCompleted } = ctx.req.cookies;
+  const userToken = ctx.req.cookies[TOKEN_KEY];
+  const userID = ctx.req.cookies[USER_ID];
 
-  return {
-    props: {
-      level: Number(level),
-      currentExperience: Number(currentExperience),
-      challengesCompleted: Number(challengesCompleted),
-    },
-  };
+  if (!userToken || !userID)
+    return { props: {}, redirect: { permanent: false, destination: '/sign' } };
+
+  const authUserData = await isAuthenticated(userToken);
+  if (authUserData.error)
+    return { props: {}, redirect: { permanent: false, destination: '/sign' } };
+
+  const userData = await database.ref('users').child(userID).get();
+  if (userData.exists()) {
+    return {
+      props: userData.val(),
+    };
+  }
+
+  return { props: {}, redirect: { permanent: false, destination: '/sign' } };
 };
