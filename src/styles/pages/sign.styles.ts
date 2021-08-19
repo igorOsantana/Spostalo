@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Body = styled.main`
   min-height: 100vh;
   min-width: 100vw;
-  background-image: url(${'/images/background_sign_light.jpg'});
+  background-image: url(${'/images/background_sign-register.jpg'});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top;
@@ -30,7 +30,7 @@ export const Form = styled.form`
   max-width: 700px;
   border: 1px solid ${({ theme: { colors } }) => colors.colorGrayLine};
   border-radius: 5px;
-  background: ${({ theme: { colors } }) => colors.colorWhiteAlpha};
+  background-color: ${({ theme: { colors } }) => colors.background};
   -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
   transition: all 0.3s;
