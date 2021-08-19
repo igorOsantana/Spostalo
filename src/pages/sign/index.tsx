@@ -3,59 +3,54 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { database } from '../../services/firebase';
-import { setToken, setUserID, TOKEN_KEY } from '../../services/auth';
+import { Formik, Form, FormikHelpers } from 'formik';
+import * as Yup from 'yup';
+import {
+  authUser,
+  createUser,
+  handleExistUser,
+  setToken,
+  setUserID,
+  TOKEN_KEY,
+} from '../../services/auth';
 import { signInWithGoogle } from '../../services/firebase';
 
+import InputWithValidate from '../../components/Input';
 import Loader from '../../components/Loader';
 
 import {
   Body,
   Container,
-  Form,
-  Input,
+  FormContent,
+  ButtonsContainer,
   Button,
   BtnSignInGoogle,
 } from '../../styles/pages/sign.styles';
 
-type CreateUserProps = {
-  userId: string;
-  email: string;
-  username: string;
-  photoURL: string;
-};
-
-type SignProps = {
+type SignPageProps = {
   isLogged: boolean;
 };
 
-export default function Sign({ isLogged }: SignProps) {
+type SignInProps = {
+  email: string;
+  password: string;
+};
+
+export default function Sign({ isLogged }: SignPageProps) {
   const [isLoading, setIsLoading] = useState(false);
   const route = useRouter();
 
-  const handleExistUser = async (userId: string) => {
-    const existUser = await database.ref().child('users').child(userId).get();
-    return existUser.exists();
+  const initialValues: SignInProps = {
+    email: '',
+    password: '',
   };
 
-  const createUser = ({
-    userId,
-    email,
-    username,
-    photoURL,
-  }: CreateUserProps) => {
-    database
-      .ref()
-      .child('users/' + userId)
-      .set({
-        email,
-        username,
-        photoURL,
-        level: 0,
-        currentExperience: 0,
-        challengesCompleted: 0,
-      });
-  };
+  const schemaSignInValidation = Yup.object({
+    email: Yup.string().email('Email inválido').required('Campo obrigatório'),
+    password: Yup.string()
+      .min(6, 'Senha deve conter ao menos 6 caracteres')
+      .required('Campo obrigatório'),
+  });
 
   const handleAuthGoogle = () => {
     signInWithGoogle().then(async response => {
@@ -82,6 +77,17 @@ export default function Sign({ isLogged }: SignProps) {
     setIsLoading(false);
   };
 
+  const handleSubmit = async (
+    { email, password }: SignInProps,
+    { setSubmitting }: FormikHelpers<SignInProps>
+  ) => {
+    setIsLoading(true);
+    const isAuth = await authUser({ email, password });
+    setIsLoading(false);
+    setSubmitting(false);
+    if (isAuth) route.push('/home');
+  };
+
   useEffect(() => {
     if (isLogged) route.push('/home');
   }, []);
@@ -92,22 +98,38 @@ export default function Sign({ isLogged }: SignProps) {
         <title>Sign | Spostalo</title>
       </Head>
       <Container>
-        <Form>
-          <h1>Spostalo</h1>
-          <p>
-            Mantenha o <strong>foco</strong> nos seus objetivos com{' '}
-            <strong>saúde</strong>
-          </p>
-          <Input placeholder='Email' type='email' />
-          <Input placeholder='Senha' type='password' />
-          <div>
-            <Link href='/register'>Não tenho conta</Link>
-            <Button>Entrar</Button>
-          </div>
-          <BtnSignInGoogle type='button' onClick={handleAuthGoogle}>
-            Entrar com <span>Google</span>
-          </BtnSignInGoogle>
-        </Form>
+        <FormContent>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={schemaSignInValidation}
+            onSubmit={handleSubmit}
+          >
+            <Form>
+              <h1>Spostalo</h1>
+              <p>
+                Mantenha o <strong>foco</strong> nos seus objetivos com{' '}
+                <strong>saúde</strong>
+              </p>
+              <InputWithValidate
+                name='email'
+                placeholder='Email'
+                type='email'
+              />
+              <InputWithValidate
+                name='password'
+                placeholder='Senha'
+                type='password'
+              />
+              <ButtonsContainer>
+                <Link href='/register'>Não tenho conta</Link>
+                <Button>Entrar</Button>
+              </ButtonsContainer>
+              <BtnSignInGoogle type='button' onClick={handleAuthGoogle}>
+                Entrar com <span>Google</span>
+              </BtnSignInGoogle>
+            </Form>
+          </Formik>
+        </FormContent>
       </Container>
       {isLoading && <Loader />}
     </Body>

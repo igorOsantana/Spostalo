@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { Formik, Form, FormikHelpers } from 'formik';
+import { registerUser } from '../../services/auth';
 import * as Yup from 'yup';
 
 import InputWithValidate from '../../components/Input';
+import Loader from '../../components/Loader';
 
 import {
   Body,
@@ -15,9 +18,6 @@ import {
   FileAvatar,
   ErrorOnSubmit,
 } from '../../styles/pages/register.styles';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { registerUser } from '../../store/slices/userSlice';
-import Loader from '../../components/Loader';
 
 type RegisterFormProps = {
   name: string;
@@ -28,10 +28,9 @@ type RegisterFormProps = {
 
 export default function Register() {
   const [avatarImg, setAvatarImg] = useState<File>();
-  const isLoading = useAppSelector(state => state.user.isLoading);
-  const msgError = useAppSelector(state => state.user.msgError);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const dispatch = useAppDispatch();
+  const route = useRouter();
 
   const initialValues: RegisterFormProps = {
     name: '',
@@ -42,7 +41,7 @@ export default function Register() {
 
   const schemaRegisterValidation = Yup.object({
     name: Yup.string().required('Campo obrigatório'),
-    email: Yup.string().email().required('Campo obrigatório'),
+    email: Yup.string().email('Email inválido').required('Campo obrigatório'),
     password: Yup.string()
       .min(6, 'Senha deve conter ao menos 6 caracteres')
       .required('Campo obrigatório'),
@@ -54,12 +53,21 @@ export default function Register() {
   const handleInputFile = (e: React.ChangeEvent<HTMLInputElement>) =>
     setAvatarImg(e.currentTarget.files[0]);
 
-  const handleSubmit = (
-    values: RegisterFormProps,
+  const handleSubmit = async (
+    { email, password, name: username }: RegisterFormProps,
     { setSubmitting }: FormikHelpers<RegisterFormProps>
   ) => {
-    dispatch(registerUser(values));
+    setIsLoading(true);
+    const avatar = URL.createObjectURL(avatarImg) || undefined;
+    const isCreated = await registerUser({
+      email,
+      password,
+      username,
+      photoURL: avatar,
+    });
+    setIsLoading(false);
     setSubmitting(false);
+    if (isCreated) route.push('/home');
   };
 
   return (
@@ -93,7 +101,6 @@ export default function Register() {
                 placeholder='Confirmar senha'
                 type='password'
               />
-              {msgError.length > 0 && <ErrorOnSubmit>{msgError}</ErrorOnSubmit>}
               <AvatarContent>
                 <ImageAvatar
                   src={

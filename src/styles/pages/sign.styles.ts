@@ -19,7 +19,7 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const Form = styled.form`
+export const FormContent = styled.div`
   flex: 1;
   padding: 1rem 1.5rem;
   display: flex;
@@ -52,47 +52,27 @@ export const Form = styled.form`
     }
   }
 
-  > div {
+  form {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    flex-wrap: wrap;
-    width: 90%;
-    margin: 1rem;
-
-    a {
-      font-size: max(1rem, 1vw);
-      color: ${({ theme: { colors } }) => colors.colorTitle};
-      text-decoration: underline;
-    }
+    width: 100%;
+    padding: 0 1rem;
   }
 `;
 
-export const Input = styled.input`
-  padding: 0.5rem 0.75rem;
-  margin: 0.25rem 0;
-  background-color: transparent;
-  border: 2px solid ${({ theme: { colors } }) => colors.colorGrayLine};
-  border-radius: 5px;
-  width: 90%;
-  height: 3rem;
-  outline: none;
-  transition: all 0.3s;
+export const ButtonsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 1rem;
 
-  &::placeholder {
-    font-size: min(1rem, 5vw);
-    color: ${({ theme: { colors } }) => colors.text};
-    text-transform: capitalize;
-    opacity: 0.7;
-    transition: all 0.3s;
-  }
-
-  &:focus {
-    border-color: ${({ theme: { colors } }) => colors.text};
-
-    &::placeholder {
-      font-weight: bold;
-    }
+  a {
+    font-size: max(1rem, 1vw);
+    color: ${({ theme: { colors } }) => colors.colorTitle};
+    text-decoration: underline;
   }
 `;
 

@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
-import { isAuthenticated, TOKEN_KEY, USER_ID } from '../../services/auth';
+import { isTokenValid, TOKEN_KEY, USER_ID } from '../../services/auth';
 import { database } from '../../services/firebase';
 
 import { CompletedChallenges } from '../../components/CompletedChallenges';
@@ -14,7 +14,6 @@ import { CountdownProvider } from '../../contexts/CountdownContext';
 import { Container, Header } from '../../styles/pages/home.styles';
 
 export default function Home(props) {
-  console.log(props);
   const gameData = {
     level: props.userData.level,
     currentExperience: props.userData.currentExperience,
@@ -58,11 +57,12 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   if (!userToken || !userID)
     return { props: {}, redirect: { permanent: false, destination: '/sign' } };
 
-  const authUserData = await isAuthenticated(userToken);
+  const authUserData = await isTokenValid(userToken);
   if (authUserData.error)
     return { props: {}, redirect: { permanent: false, destination: '/sign' } };
 
   const userData = await database.ref('users').child(userID).get();
+  console.log('userData = ', userData);
   if (userData.exists()) {
     return {
       props: {
