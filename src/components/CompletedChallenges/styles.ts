@@ -10,12 +10,12 @@ export const CompletedChallengesContainer = styled.div`
   border-bottom: 1px solid ${props => props.theme.colors.colorGrayChallenges};
 
   font-weight: 500;
-  > span{
-    &::first-child {
+  > span {
+    &:first-child {
       font-size: 1.25rem;
     }
-    &::last-child {
+    &:last-child {
       font-size: 1.5rem;
     }
   }
-`
+`;

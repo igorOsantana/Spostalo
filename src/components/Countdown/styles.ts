@@ -20,12 +20,16 @@ export const CountdownContainer = styled.div`
     text-align: center;
 
     @media (max-width: 450px) {
-      font-size: min(5rem, 10vh);
+      font-size: 5rem;
     }
 
     span {
       flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       padding: 0 10px;
+      min-height: 7rem;
 
       &:first-child {
         border-right: 1px solid ${props => props.theme.colors.background};
@@ -55,14 +59,14 @@ export const CountdownButton = styled.button`
   border-radius: 5px;
 
   background: ${props => props.theme.colors.colorBlue};
-  color: ${props => props.theme.colors.colorTextHighlight};
+  color: #fff;
 
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: bold;
+  transition: all 0.3s ease;
 
-  transition: background-color 0.2s;
   &:not(:disabled):hover {
-    background: ${props => props.theme.colors.colorBlueDark};
+    filter: brightness(90%);
   }
   &:disabled {
     background: ${props => props.theme.colors.colorWhite};
@@ -87,13 +91,12 @@ export const CountdownButtonActive = styled.button`
   font-size: 1.25rem;
   font-weight: 600;
 
-  transition: background-color 0.2s;
+  transition: all 0.3s ease;
 
   background-color: ${props => props.theme.colors.colorWhite};
   color: ${props => props.theme.colors.colorTitle};
 
   &:not(:disabled):hover {
-    background: ${props => props.theme.colors.colorRed};
-    color: ${props => props.theme.colors.colorTextHighlight};
+    filter: brightness(90%);
   }
 `;

@@ -1,5 +1,7 @@
 import { useContext } from 'react';
 import { ChallengesContext } from '../../contexts/ChallengesContext';
+import { IoIosCloseCircleOutline } from 'react-icons/io';
+
 import { Overlay, Container } from './styles';
 
 export function LevelUpModal() {
@@ -11,7 +13,7 @@ export function LevelUpModal() {
         <strong>Parabéns</strong>
         <p>Você alcançou um novo level!</p>
         <button type='button' onClick={closeLevelUpModal}>
-          <img src='/icons/close.svg' alt='Fechar modal' />
+          <IoIosCloseCircleOutline />
         </button>
       </Container>
     </Overlay>

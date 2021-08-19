@@ -116,9 +116,9 @@ export default function Register() {
               <Button type='submit'>{isLoading ? 'Salvando' : 'Salvar'}</Button>
             </Form>
           </Formik>
-          {isLoading && <Loader />}
         </ContentForm>
       </Container>
+      {isLoading && <Loader />}
     </Body>
   );
 }

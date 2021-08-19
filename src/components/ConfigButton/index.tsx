@@ -1,6 +1,10 @@
-//import styles from '../styles/components/ConfigButton.module.css';
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
+import { useRouter } from 'next/router';
+import { auth } from '../../services/firebase';
 import Switch from 'react-switch';
+import ClickAwayListener from 'react-click-away-listener';
+import { removeToken } from '../../services/auth';
+
 import { ThemeContext } from 'styled-components';
 import {
   ButtonConfigNotSelected,
@@ -8,15 +12,13 @@ import {
   Dropdown,
   Title,
 } from './styles';
-import ClickAwayListener from 'react-click-away-listener';
-import { removeToken } from '../../services/auth';
-import { useRouter } from 'next/router';
 
 interface ConfigButtonProps {
-  toggleTheme(): void;
+  toggleTheme: () => void;
 }
 
 export function ConfigButton({ toggleTheme }: ConfigButtonProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const { colors, title } = useContext(ThemeContext);
   const route = useRouter();
@@ -25,10 +27,14 @@ export function ConfigButton({ toggleTheme }: ConfigButtonProps) {
 
   const handleClickAway = () => setOpen(false);
 
-  const handleLogOut = () => {
+  const handleLogOut = async () => {
+    setIsLoading(true);
+    await auth.signOut();
     removeToken();
-    route.push('/sign');
+    setIsLoading(false);
   };
+
+  auth.onAuthStateChanged(user => !user && route.push('/sign'));
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
@@ -56,7 +62,7 @@ export function ConfigButton({ toggleTheme }: ConfigButtonProps) {
                   id='switch-theme'
                 />
               </li>
-              <li onClick={handleLogOut}>Sair</li>
+              <li onClick={handleLogOut}>{isLoading ? 'Saindo...' : 'Sair'}</li>
             </ul>
           </Dropdown>
         )}

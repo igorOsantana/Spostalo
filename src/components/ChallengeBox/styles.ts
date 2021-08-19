@@ -1,5 +1,13 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
+const btnHoverAnimation = keyframes`
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.2);
+  }
+`;
 
 export const ChallengeBoxContainer = styled.div`
   height: 100%;
@@ -15,7 +23,7 @@ export const ChallengeBoxContainer = styled.div`
   justify-content: center;
 
   text-align: center;
-`
+`;
 
 export const ChallengeNotActive = styled.div`
   display: flex;
@@ -39,7 +47,7 @@ export const ChallengeNotActive = styled.div`
       margin-bottom: 1rem;
     }
   }
-`
+`;
 
 export const ChallengeActive = styled.div`
   height: 100%;
@@ -47,11 +55,11 @@ export const ChallengeActive = styled.div`
   display: flex;
   flex-direction: column;
   header {
-  color: ${props => props.theme.colors.colorBlue};
-  font-weight: 600;
-  font-size: 1.25rem;
-  padding: 0 2rem 1.5rem;
-  border-bottom: 1px solid ${props => props.theme.colors.colorGrayLine};
+    color: #5297e8;
+    font-weight: 600;
+    font-size: 1.5rem;
+    padding: 0 2rem 1.5rem;
+    border-bottom: 1px solid ${props => props.theme.colors.colorGrayLine};
   }
   main {
     flex: 1;
@@ -73,31 +81,35 @@ export const ChallengeActive = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+
     button {
       height: 3rem;
-      
+
       display: flex;
       align-items: center;
       justify-content: center;
 
-      border: 0;
+      border: 1px solid transparent;
       border-radius: 5px;
 
-      color: ${props => props.theme.colors.colorWhite};
+      color: #fff;
       font-size: 1rem;
       font-weight: 600;
+      transition: all 0.3s ease;
 
-      transition: filter 0.2s;
+      svg {
+        font-size: 1.25rem;
+      }
 
-      &:hover{
-        filter: brightness(0.8);
+      &:hover svg {
+        animation: ${btnHoverAnimation} 1s ease forwards;
       }
     }
   }
-`
+`;
 export const ChallengeFailedButton = styled.button`
   background: ${props => props.theme.colors.colorRed};
-`
+`;
 export const ChallengeSucceededButton = styled.button`
   background: ${props => props.theme.colors.colorGreen};
-`
+`;

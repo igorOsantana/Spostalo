@@ -13,17 +13,18 @@ import { CountdownProvider } from '../../contexts/CountdownContext';
 
 import { Container, Header } from '../../styles/pages/home.styles';
 
-export default function Home(userData) {
-  console.log(userData);
+export default function Home(props) {
+  console.log(props);
   const gameData = {
-    level: userData.level,
-    currentExperience: userData.currentExperience,
-    challengesCompleted: userData.challengesCompleted,
+    level: props.userData.level,
+    currentExperience: props.userData.currentExperience,
+    challengesCompleted: props.userData.challengesCompleted,
   };
   return (
     <ChallengesProvider
-      username={userData.username}
-      avatar={userData.photoURL}
+      userID={props.userID}
+      username={props.userData.username}
+      avatar={props.userData.photoURL}
       game={gameData}
     >
       <Container>
@@ -64,7 +65,10 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   const userData = await database.ref('users').child(userID).get();
   if (userData.exists()) {
     return {
-      props: userData.val(),
+      props: {
+        userData: userData.val(),
+        userID: userID,
+      },
     };
   }
 

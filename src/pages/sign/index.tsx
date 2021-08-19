@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -7,12 +7,15 @@ import { database } from '../../services/firebase';
 import { setToken, setUserID, TOKEN_KEY } from '../../services/auth';
 import { signInWithGoogle } from '../../services/firebase';
 
+import Loader from '../../components/Loader';
+
 import {
   Body,
   Container,
   Form,
   Input,
   Button,
+  BtnSignInGoogle,
 } from '../../styles/pages/sign.styles';
 
 type CreateUserProps = {
@@ -27,6 +30,7 @@ type SignProps = {
 };
 
 export default function Sign({ isLogged }: SignProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const route = useRouter();
 
   const handleExistUser = async (userId: string) => {
@@ -55,6 +59,7 @@ export default function Sign({ isLogged }: SignProps) {
 
   const handleAuthGoogle = () => {
     signInWithGoogle().then(async response => {
+      setIsLoading(true);
       const { uid, displayName, photoURL, email } = response.user;
 
       const idToken = await response.user.getIdToken();
@@ -74,6 +79,7 @@ export default function Sign({ isLogged }: SignProps) {
       });
       route.push('/home');
     });
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -96,12 +102,14 @@ export default function Sign({ isLogged }: SignProps) {
           <Input placeholder='Senha' type='password' />
           <div>
             <Link href='/register'>Não tenho conta</Link>
-            <Button type='button' onClick={handleAuthGoogle}>
-              Entrar
-            </Button>
+            <Button>Entrar</Button>
           </div>
+          <BtnSignInGoogle type='button' onClick={handleAuthGoogle}>
+            Entrar com <span>Google</span>
+          </BtnSignInGoogle>
         </Form>
       </Container>
+      {isLoading && <Loader />}
     </Body>
   );
 }

@@ -1,15 +1,22 @@
 import { createContext, useState, ReactNode, useEffect } from 'react';
 import challenges from '../../challenges.json';
-import Cookies from 'js-cookie';
+import { database } from '../services/firebase';
+
 import { LevelUpModal } from '../components/LevelUpModal';
 
-interface Challenge {
+type Challenge = {
   type: 'body' | 'eye';
   description: string;
   amount: number;
-}
+};
 
-interface ChallengesContextData {
+type GameProps = {
+  level: number;
+  currentExperience: number;
+  challengesCompleted: number;
+};
+
+type ChallengesContextData = {
   username: string;
   avatar: string;
   level: number;
@@ -22,63 +29,41 @@ interface ChallengesContextData {
   experienceToNextLevel: number;
   completeChallenge: () => void;
   closeLevelUpModal: () => void;
-}
+};
 
-interface ChallengesProviderProps {
+type ChallengesProviderProps = {
   children: ReactNode;
+  userID: string;
   username: string;
   avatar: string;
-  game: {
-    level: number;
-    currentExperience: number;
-    challengesCompleted: number;
-  };
-}
+  game: GameProps;
+};
 
 export const ChallengesContext = createContext({} as ChallengesContextData);
 
 export function ChallengesProvider({
   children,
-  ...rest
+  ...props
 }: ChallengesProviderProps) {
   const [username, setUsername] = useState(
-    rest.username ? rest.username : 'Usuário desconhecido'
+    props.username ? props.username : 'Usuário desconhecido'
   );
   const [avatar, setAvatar] = useState(
-    rest.avatar ? rest.avatar : '/icons/avatar-icon.png'
+    props.avatar ? props.avatar : '/icons/avatar-icon.png'
   );
-  const [level, setLevel] = useState(rest.game.level ? rest.game.level : 0);
+  const [level, setLevel] = useState(props.game.level ? props.game.level : 0);
   const [currentExperience, setCurrentExperience] = useState(
-    rest.game.currentExperience ? rest.game.currentExperience : 0
+    props.game.currentExperience ? props.game.currentExperience : 0
   );
   const [challengesCompleted, setChallengesCompleted] = useState(
-    rest.game.challengesCompleted ?? 0
+    props.game.challengesCompleted ?? 0
   );
   const [activeChallenge, setActiveChallenge] = useState(null);
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
 
   const experienceToNextLevel = Math.pow((level + 1) * 5, 2);
 
-  useEffect(() => {
-    Notification.requestPermission();
-  }, []);
-
-  useEffect(() => {
-    Cookies.set('level', String(level));
-    Cookies.set('currentExperience', String(currentExperience));
-    Cookies.set('challengesCompleted', String(challengesCompleted));
-  }, [level, currentExperience, challengesCompleted]);
-
-  function closeLevelUpModal() {
-    setIsLevelUpModalOpen(false);
-  }
-
-  function levelUp() {
-    setLevel(prevState => prevState + 1);
-    setIsLevelUpModalOpen(true);
-  }
-
-  function startNewChallenge() {
+  const startNewChallenge = () => {
     const randomChallengeIndex = Math.floor(Math.random() * challenges.length);
     const challenge = challenges[randomChallengeIndex];
 
@@ -91,13 +76,11 @@ export function ChallengesProvider({
         body: `Valendo ${challenge.amount} xp!`,
       });
     }
-  }
+  };
 
-  function resetChallenge() {
-    setActiveChallenge(null);
-  }
+  const resetChallenge = () => setActiveChallenge(null);
 
-  function completeChallenge() {
+  const completeChallenge = () => {
     if (!activeChallenge) {
       return;
     }
@@ -114,7 +97,30 @@ export function ChallengesProvider({
     setCurrentExperience(finalExperience);
     setActiveChallenge(null);
     setChallengesCompleted(challengesCompleted + 1);
-  }
+  };
+
+  const closeLevelUpModal = () => setIsLevelUpModalOpen(false);
+
+  const levelUp = () => {
+    setLevel(prevState => prevState + 1);
+    setIsLevelUpModalOpen(true);
+  };
+
+  const updateUserGameData = async (game: GameProps) => {
+    await database.ref().child('users').child(props.userID).update({
+      level: game.level,
+      currentExperience: game.currentExperience,
+      challengesCompleted: game.challengesCompleted,
+    });
+  };
+
+  useEffect(() => {
+    Notification.requestPermission();
+  }, []);
+
+  useEffect(() => {
+    updateUserGameData({ level, currentExperience, challengesCompleted });
+  }, [level, currentExperience, challengesCompleted]);
 
   return (
     <ChallengesContext.Provider

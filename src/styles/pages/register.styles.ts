@@ -8,7 +8,7 @@ type LoadingProps = {
 export const Body = styled.main`
   min-height: 100vh;
   min-width: 100vw;
-  background-image: url(${'/images/background_register.jpg'});
+  background-image: url(${'/images/background_register_light.jpg'});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -25,7 +25,6 @@ export const Container = styled.div`
 `;
 
 export const ContentForm = styled.div<LoadingProps>`
-  position: relative;
   margin: 2rem;
   padding: 1rem 1.5rem;
   display: flex;
@@ -36,7 +35,7 @@ export const ContentForm = styled.div<LoadingProps>`
   max-width: 700px;
   border: 1px solid ${({ theme: { colors } }) => colors.colorGrayLine};
   border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: ${({ theme: { colors } }) => colors.colorWhiteAlpha};
   -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
   transition: all 0.3s;
@@ -82,7 +81,7 @@ export const FileAvatar = styled.label`
   height: min-content;
   padding: 0.75rem 1rem;
   border-radius: 5px;
-  color: #fff;
+  color: ${({ theme: { colors } }) => colors.colorWhite};
   background-color: ${({ theme: { colors } }) => colors.text};
   font-size: min(1rem, 5vw);
   font-weight: bold;

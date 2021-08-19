@@ -129,8 +129,13 @@ export const Dropdown = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1.5rem;
+    max-height: 50px;
     cursor: pointer;
     transition: all 0.2s;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid ${({ theme: { colors } }) => colors.text};
+    }
 
     &:hover {
       background-color: ${props => props.theme.colors.text};
@@ -149,6 +154,5 @@ export const Title = styled.p`
   font-size: 1.15rem;
   font-weight: bold;
   padding: 1rem;
-  border-bottom: 1px solid
-    ${({ theme: { colors } }) => colors.colorTextHighlight};
+  border-bottom: 1px solid ${({ theme: { colors } }) => colors.text};
 `;

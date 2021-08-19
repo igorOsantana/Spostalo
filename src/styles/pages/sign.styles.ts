@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Body = styled.main`
   min-height: 100vh;
   min-width: 100vw;
-  background-image: url(${'/images/background_sign.jpg'});
+  background-image: url(${'/images/background_sign_light.jpg'});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top;
@@ -30,7 +30,7 @@ export const Form = styled.form`
   max-width: 700px;
   border: 1px solid ${({ theme: { colors } }) => colors.colorGrayLine};
   border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: ${({ theme: { colors } }) => colors.colorWhiteAlpha};
   -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
   transition: all 0.3s;
@@ -112,5 +112,42 @@ export const Button = styled.button`
 
   &:active {
     transform: translateY(5px);
+  }
+`;
+
+export const BtnSignInGoogle = styled.button`
+  margin: 1rem;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  -webkit-box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.5);
+  font-size: min(0.9rem, 3vw);
+  font-weight: bold;
+  color: ${({ theme: { colors } }) => colors.text};
+  background-color: ${({ theme: { title, colors } }) => colors.colorWhiteAlpha};
+  transition: all 0.3s ease;
+
+  span {
+    background: linear-gradient(
+      90deg,
+      #4285f4 20%,
+      #ea4335 25%,
+      #fabc07 50%,
+      #4285f4 63%,
+      #34a853 84%,
+      #ea4335 85%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  &:hover {
+    filter: brightness(90%);
+  }
+
+  &:active {
+    transform: translateY(3px);
   }
 `;

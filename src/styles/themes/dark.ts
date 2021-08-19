@@ -15,6 +15,7 @@ const dark = {
     colorBlueTwitter: '#2aa9e0',
     colorGrayChallenges: '#fff',
     colorOrange: '#F08D28',
+    colorWhiteAlpha: 'rgba(46, 49, 56, 0.8)',
   },
 };
 

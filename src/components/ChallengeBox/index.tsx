@@ -1,6 +1,9 @@
 import { useContext } from 'react';
+import { BiLike, BiDislike } from 'react-icons/bi';
+
 import { ChallengesContext } from '../../contexts/ChallengesContext';
 import { CountdownContext } from '../../contexts/CountdownContext';
+
 import {
   ChallengeActive,
   ChallengeFailedButton,
@@ -38,10 +41,10 @@ export function ChallengeBox() {
 
           <footer>
             <ChallengeFailedButton onClick={handleChallengeFailed}>
-              Falhei
+              <BiDislike />
             </ChallengeFailedButton>
             <ChallengeSucceededButton onClick={handleChallengeSucceeded}>
-              Completei
+              <BiLike />
             </ChallengeSucceededButton>
           </footer>
         </ChallengeActive>
