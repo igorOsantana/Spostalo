@@ -125,7 +125,7 @@ export const BtnSignInGoogle = styled.button`
   font-size: min(0.9rem, 3vw);
   font-weight: bold;
   color: ${({ theme: { colors } }) => colors.text};
-  background-color: ${({ theme: { title, colors } }) => colors.colorWhiteAlpha};
+  background-color: ${({ theme: { colors } }) => colors.colorWhiteAlpha};
   transition: all 0.3s ease;
 
   span {
