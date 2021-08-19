@@ -35,9 +35,7 @@ export const ContentForm = styled.div<LoadingProps>`
   max-width: 700px;
   border: 1px solid ${({ theme: { colors } }) => colors.colorGrayLine};
   border-radius: 5px;
-  -webkit-background-color: ${({ theme: { colors } }) =>
-    colors.colorWhiteAlpha};
-  background-color: ${({ theme: { colors } }) => colors.colorWhiteAlpha};
+  background: ${({ theme: { colors } }) => colors.colorWhiteAlpha};
   -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
   transition: all 0.3s;

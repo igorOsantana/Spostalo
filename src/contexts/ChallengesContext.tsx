@@ -61,6 +61,8 @@ export function ChallengesProvider({
   const [activeChallenge, setActiveChallenge] = useState(null);
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
 
+  const isIOS = /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
+
   const experienceToNextLevel = Math.pow((level + 1) * 5, 2);
 
   const startNewChallenge = () => {
@@ -71,7 +73,7 @@ export function ChallengesProvider({
 
     new Audio('/notification.mp3').play();
 
-    if (Notification.permission === 'granted') {
+    if (Notification.permission === 'granted' && !isIOS) {
       new Notification('Novo desafio 🎉', {
         body: `Valendo ${challenge.amount} xp!`,
       });
@@ -115,7 +117,7 @@ export function ChallengesProvider({
   };
 
   useEffect(() => {
-    Notification.requestPermission();
+    if (!isIOS) Notification.requestPermission();
   }, []);
 
   useEffect(() => {
