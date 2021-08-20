@@ -73,7 +73,7 @@ export const createUser = async ({
     .set({
       email,
       username,
-      photoURL: photoURL ? photoURL : '/icons/avatar-icon.png',
+      photoURL,
       level: 0,
       currentExperience: 0,
       challengesCompleted: 0,

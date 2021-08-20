@@ -124,7 +124,7 @@ export default function Sign({ isLogged }: SignPageProps) {
               />
               <ButtonsContainer>
                 <Link href='/register'>Não tenho conta</Link>
-                <Button>Entrar</Button>
+                <Button>{isLoading ? 'Entrando' : 'Entrar'}</Button>
               </ButtonsContainer>
               <BtnSignInGoogle type='button' onClick={handleAuthGoogle}>
                 Entrar com <span>Google</span>

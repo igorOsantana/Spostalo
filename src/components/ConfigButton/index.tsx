@@ -31,10 +31,14 @@ export function ConfigButton({ toggleTheme }: ConfigButtonProps) {
     setIsLoading(true);
     await auth.signOut();
     removeTokens();
-    setIsLoading(false);
   };
 
-  auth.onAuthStateChanged(user => !user && route.push('/sign'));
+  auth.onAuthStateChanged(user => {
+    if (!user) {
+      setIsLoading(false);
+      route.push('/sign');
+    }
+  });
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>

@@ -2,7 +2,12 @@ import { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { registerUser } from '../../services/auth';
+import {
+  isTokenValid,
+  registerUser,
+  TOKEN_KEY,
+  USER_ID,
+} from '../../services/auth';
 import * as Yup from 'yup';
 
 import InputWithValidate from '../../components/Input';
@@ -18,6 +23,7 @@ import {
   FileAvatar,
   ErrorOnSubmit,
 } from '../../styles/pages/register.styles';
+import { GetServerSideProps } from 'next';
 
 type RegisterFormProps = {
   name: string;
@@ -63,7 +69,7 @@ export default function Register() {
       email,
       password,
       username,
-      photoURL: avatar,
+      photoURL: avatar ? avatar : '/icons/avatar-icon.png',
     });
     setIsLoading(false);
     setSubmitting(false);
@@ -129,3 +135,21 @@ export default function Register() {
     </Body>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ctx => {
+  const userToken = ctx.req.cookies[TOKEN_KEY];
+  const userID = ctx.req.cookies[USER_ID];
+
+  if (userToken && userID) {
+    const authUserData = await isTokenValid(userToken);
+
+    if (!authUserData.error)
+      return {
+        redirect: { permanent: false, destination: '/home' },
+      };
+  }
+
+  return {
+    props: {},
+  };
+};
