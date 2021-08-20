@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { fadeInLeft } from '../animations';
 
 export const Body = styled.main`
   min-height: 100vh;
@@ -17,6 +18,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: ${fadeInLeft} 0.3s ease;
 `;
 
 export const FormContent = styled.div`

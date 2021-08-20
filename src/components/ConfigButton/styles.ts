@@ -128,7 +128,7 @@ export const Dropdown = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 1.5rem;
+    padding: 1rem;
     max-height: 50px;
     cursor: pointer;
     transition: all 0.2s;
@@ -151,8 +151,8 @@ export const Dropdown = styled.div`
 `;
 
 export const Title = styled.p`
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   font-weight: bold;
-  padding: 1rem;
+  padding: 0.75rem;
   border-bottom: 1px solid ${({ theme: { colors } }) => colors.text};
 `;

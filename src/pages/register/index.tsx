@@ -12,6 +12,7 @@ import * as Yup from 'yup';
 
 import InputWithValidate from '../../components/Input';
 import Loader from '../../components/Loader';
+import Avatar from '../../components/Avatar';
 
 import {
   Body,
@@ -19,9 +20,7 @@ import {
   ContentForm,
   Button,
   AvatarContent,
-  ImageAvatar,
   FileAvatar,
-  ErrorOnSubmit,
 } from '../../styles/pages/register.styles';
 import { GetServerSideProps } from 'next';
 
@@ -64,12 +63,13 @@ export default function Register() {
     { setSubmitting }: FormikHelpers<RegisterFormProps>
   ) => {
     setIsLoading(true);
-    const avatar = URL.createObjectURL(avatarImg) || undefined;
     const isCreated = await registerUser({
       email,
       password,
       username,
-      photoURL: avatar ? avatar : '/icons/avatar-icon.png',
+      photoFile: avatarImg
+        ? avatarImg
+        : new File(['/icons/avatar-icon.png'], 'Avatar image'),
     });
     setIsLoading(false);
     setSubmitting(false);
@@ -108,13 +108,12 @@ export default function Register() {
                 type='password'
               />
               <AvatarContent>
-                <ImageAvatar
-                  src={
+                <Avatar
+                  image={
                     !!avatarImg
                       ? URL.createObjectURL(avatarImg)
                       : '/icons/avatar-icon.png'
                   }
-                  alt='Avatar profile'
                 />
                 <FileAvatar htmlFor='input-file'>
                   <span>{avatarImg ? 'Trocar foto' : 'Escolher foto'}</span>
@@ -138,9 +137,8 @@ export default function Register() {
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const userToken = ctx.req.cookies[TOKEN_KEY];
-  const userID = ctx.req.cookies[USER_ID];
 
-  if (userToken && userID) {
+  if (userToken) {
     const authUserData = await isTokenValid(userToken);
 
     if (!authUserData.error)
@@ -150,6 +148,6 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   }
 
   return {
-    props: {},
+    props: {} as never,
   };
 };

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { auth } from '../../services/firebase';
 import Switch from 'react-switch';
 import ClickAwayListener from 'react-click-away-listener';
-import { removeTokens } from '../../services/auth';
+import { removeToken } from '../../services/auth';
 
 import { ThemeContext } from 'styled-components';
 import {
@@ -30,7 +30,7 @@ export function ConfigButton({ toggleTheme }: ConfigButtonProps) {
   const handleLogOut = async () => {
     setIsLoading(true);
     await auth.signOut();
-    removeTokens();
+    removeToken();
   };
 
   auth.onAuthStateChanged(user => {

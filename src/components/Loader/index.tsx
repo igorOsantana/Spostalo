@@ -1,9 +1,11 @@
-import { Container, Loading } from './styles';
+import { Container, LoaderProps } from './styles';
 
-export default function Loader() {
+const Loader: React.FC<LoaderProps> = props => {
   return (
-    <Container>
-      <Loading />
+    <Container {...props}>
+      <div />
     </Container>
   );
-}
+};
+
+export default Loader;

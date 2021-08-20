@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { shake } from '../animations';
+import { fadeInRight, shake } from '../animations';
 
 type LoadingProps = {
   isLoading: boolean;
@@ -22,6 +22,7 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: ${fadeInRight} 0.3s ease;
 `;
 
 export const ContentForm = styled.div<LoadingProps>`
@@ -70,12 +71,6 @@ export const AvatarContent = styled.div`
   margin: 1rem;
 `;
 
-export const ImageAvatar = styled.img`
-  width: min(100vw * 0.2, 15vh);
-  height: min(100vw * 0.2, 15vh);
-  border-radius: 50%;
-`;
-
 export const FileAvatar = styled.label`
   width: 60%;
   height: min-content;
@@ -87,13 +82,11 @@ export const FileAvatar = styled.label`
   font-weight: bold;
   text-align: center;
   white-space: nowrap;
-  text-overflow: ellipsis;
   cursor: pointer;
   transition: all 0.3s ease;
 
   &:hover {
     background-color: ${({ theme: { colors } }) => colors.colorTitle};
-    color: black;
   }
 
   &:active {

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { fadeIn } from '../animations';
 
 export const Header = styled.header`
   position: relative;
@@ -13,9 +14,10 @@ export const Container = styled.div`
   max-width: 992px;
   margin: 0 auto;
   padding: 2.5rem 2rem;
-
   display: flex;
   flex-direction: column;
+  opacity: 0;
+  animation: ${fadeIn} 0.6s linear forwards;
 
   section {
     flex: 1;

@@ -1,29 +1,32 @@
 import { useContext } from 'react';
 import { ChallengesContext } from '../../contexts/ChallengesContext';
-import { ProfileContainer } from './styles';
 import ToggleContext from '../../contexts/ToggleContext';
 
+import Avatar from '../../components/Avatar';
 import { ConfigButton } from '../ConfigButton';
+
+import { ProfileContainer, ProfileData } from './styles';
 
 export function Profile() {
   const { avatar, username, level } = useContext(ChallengesContext);
   const { toggleTheme } = useContext(ToggleContext);
 
   const usernameSplited = username.split(' ');
-  const usernameConverted = `${usernameSplited[0]} ${
-    usernameSplited[usernameSplited.length - 1]
-  }`;
+  const usernameConverted =
+    usernameSplited.length > 1
+      ? `${usernameSplited[0]} ${usernameSplited[usernameSplited.length - 1]}`
+      : usernameSplited[0];
 
   return (
     <ProfileContainer>
-      <img src={avatar} alt='User avatar photo' />
-      <div>
+      <Avatar image={avatar} />
+      <ProfileData>
         <strong>{usernameConverted}</strong>
         <p>
           <img src='icons/level.svg' alt='Level' />
           Level {level}
         </p>
-      </div>
+      </ProfileData>
       <ConfigButton toggleTheme={toggleTheme} />
     </ProfileContainer>
   );

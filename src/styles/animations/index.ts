@@ -69,3 +69,26 @@ export const shake = keyframes`
   90%{ transform: translateX(20px); }
   100%{ transform: translateX(0px); }
 `;
+
+export const flip = keyframes`
+0% {
+  transform: perspective(400px) rotateY(0);
+  animation-timing-function: ease-out;
+}
+40% {
+  transform: perspective(400px) rotateY(170deg);
+  animation-timing-function: ease-out;
+}
+50% {
+  transform: perspective(400px) rotateY(190deg);
+  animation-timing-function: ease-in;
+}
+80% {
+  transform: perspective(400px) rotateY(360deg)
+  animation-timing-function: ease-in;
+}
+100% {
+  transform: perspective(400px)
+  animation-timing-function: ease-in;
+}
+`;

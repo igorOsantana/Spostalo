@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { auth, database } from './firebase';
+import { auth, database, storage } from './firebase';
 import {
   displayNotificationError,
   displayNotificationSuccess,
@@ -14,14 +14,14 @@ type CreateUserProps = {
   userId: string;
   email: string;
   username: string;
-  photoURL: string;
+  photoFile: File | string;
 };
 
 type RegisterUserProps = {
   email: string;
   password: string;
   username: string;
-  photoURL?: string;
+  photoFile?: File;
 };
 
 export const TOKEN_KEY = 'spostalo-token';
@@ -33,13 +33,8 @@ export const setToken = (token: string) => {
   Cookies.set(TOKEN_KEY, token);
 };
 
-export const setUserID = (userID: string) => {
-  Cookies.set(USER_ID, userID);
-};
-
-export const removeTokens = () => {
+export const removeToken = () => {
   Cookies.remove(TOKEN_KEY);
-  Cookies.remove(USER_ID);
 };
 
 export const isTokenValid = async (token: string) => {
@@ -65,39 +60,45 @@ export const createUser = async ({
   userId,
   email,
   username,
-  photoURL,
+  photoFile,
 }: CreateUserProps) => {
+  const avatar =
+    !!photoFile && typeof photoFile === 'string'
+      ? photoFile
+      : '/icons/avatar-icon.png';
   await database
     .ref()
     .child('users/' + userId)
     .set({
       email,
       username,
-      photoURL,
+      photoUrl: avatar,
       level: 0,
       currentExperience: 0,
       challengesCompleted: 0,
     });
+
+  if (typeof photoFile !== 'string')
+    await storage.ref().child(`images/users/${userId}/avatar`).put(photoFile);
 };
 
 export const registerUser = async ({
   email,
   password,
   username,
-  photoURL,
+  photoFile,
 }: RegisterUserProps) => {
   try {
     const response = await auth.createUserWithEmailAndPassword(email, password);
     const userID = response.user.uid;
 
-    await createUser({ userId: userID, email, username, photoURL });
+    await createUser({ userId: userID, email, username, photoFile });
     displayNotificationSuccess('Conta criada com sucesso.');
 
     await authUser({ email, password });
     return true;
   } catch (error) {
     const { message } = error;
-    console.log(error);
     switch (message) {
       case 'EMAIL_EXISTS':
         displayNotificationError('Esse email já esta em uso');
@@ -115,14 +116,11 @@ export const registerUser = async ({
 export const authUser = async ({ email, password }: SignProps) => {
   try {
     const response = await auth.signInWithEmailAndPassword(email, password);
-
     const idToken = await response.user.getIdToken();
-    const userID = response.user.uid;
 
     setToken(idToken);
-    setUserID(userID);
 
-    displayNotificationSuccess('Sucesso ao autenticar. Redirecionando...');
+    displayNotificationSuccess('Acesso liberado. Redirecionando...');
     return true;
   } catch (error) {
     const { message } = error;

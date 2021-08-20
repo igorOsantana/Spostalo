@@ -11,7 +11,6 @@ import {
   handleExistUser,
   isTokenValid,
   setToken,
-  setUserID,
   TOKEN_KEY,
   USER_ID,
 } from '../../services/auth';
@@ -61,10 +60,10 @@ export default function Sign({ isLogged }: SignPageProps) {
 
       const idToken = await response.user.getIdToken();
       setToken(idToken);
-      setUserID(uid);
 
       const hasUser = await handleExistUser(uid);
       if (hasUser) {
+        setIsLoading(false);
         route.push('/home');
         return;
       }
@@ -72,11 +71,11 @@ export default function Sign({ isLogged }: SignPageProps) {
         userId: uid,
         email: email,
         username: displayName,
-        photoURL: photoURL,
+        photoFile: photoURL,
       });
+      setIsLoading(false);
       route.push('/home');
     });
-    setIsLoading(false);
   };
 
   const handleSubmit = async (
@@ -152,6 +151,6 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   }
 
   return {
-    props: {},
+    props: {} as never,
   };
 };

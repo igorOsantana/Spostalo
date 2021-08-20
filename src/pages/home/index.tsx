@@ -1,7 +1,7 @@
 import Head from 'next/head';
-import { GetServerSideProps } from 'next';
-import { isTokenValid, TOKEN_KEY, USER_ID } from '../../services/auth';
-import { database } from '../../services/firebase';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { TOKEN_KEY } from '../../services/auth';
+import { auth, database, storage } from '../../services/firebase';
 
 import { CompletedChallenges } from '../../components/CompletedChallenges';
 import { ExperienceBar } from '../../components/ExperienceBar';
@@ -12,18 +12,24 @@ import { ChallengesProvider } from '../../contexts/ChallengesContext';
 import { CountdownProvider } from '../../contexts/CountdownContext';
 
 import { Container, Header } from '../../styles/pages/home.styles';
+import { firebaseAdmin } from '../../services/firebase_admin';
 
-export default function Home(props) {
+export default function Home(
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) {
+  const {
+    userData: { id, avatar, data },
+  } = props;
   const gameData = {
-    level: props.userData.level,
-    currentExperience: props.userData.currentExperience,
-    challengesCompleted: props.userData.challengesCompleted,
+    level: data.level,
+    currentExperience: data.currentExperience,
+    challengesCompleted: data.challengesCompleted,
   };
   return (
     <ChallengesProvider
-      userID={props.userID}
-      username={props.userData.username}
-      avatar={props.userData.photoURL}
+      userID={id}
+      username={data.username}
+      avatar={avatar ? avatar : data.photoUrl}
       game={gameData}
     >
       <Container>
@@ -52,25 +58,54 @@ export default function Home(props) {
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const userToken = ctx.req.cookies[TOKEN_KEY];
-  const userID = ctx.req.cookies[USER_ID];
 
-  if (!userToken || !userID)
-    return { props: {}, redirect: { permanent: false, destination: '/sign' } };
-
-  const authUserData = await isTokenValid(userToken);
-  if (authUserData.error)
-    return { props: {}, redirect: { permanent: false, destination: '/sign' } };
-
-  const userData = await database.ref('users').child(userID).get();
-
-  if (userData.exists()) {
+  if (!userToken)
     return {
-      props: {
-        userData: userData.val(),
-        userID: userID,
-      },
+      props: {} as never,
+      redirect: { permanent: false, destination: '/sign' },
+    };
+
+  try {
+    const authUser = await firebaseAdmin.auth().verifyIdToken(userToken);
+    const userID = authUser.uid;
+    const hasSignInWithGoogle =
+      authUser.firebase.sign_in_provider === 'google.com';
+
+    const userProfile = await database.ref('users').child(userID).get();
+
+    if (userProfile.exists() && !hasSignInWithGoogle) {
+      const userAvatar = await storage
+        .ref('images/users')
+        .child(userID)
+        .child('avatar')
+        .getDownloadURL();
+
+      return {
+        props: {
+          userData: {
+            id: userID,
+            avatar: userAvatar,
+            data: userProfile.val(),
+          },
+        },
+      };
+    } else if (userProfile.exists()) {
+      const userData = userProfile.val();
+      return {
+        props: {
+          userData: {
+            id: userID,
+            avatar: userData.photoUrl,
+            data: userData,
+          },
+        },
+      };
+    }
+  } catch (error) {
+    console.log(error.message);
+    return {
+      props: {} as never,
+      redirect: { permanent: false, destination: '/sign' },
     };
   }
-
-  return { props: {}, redirect: { permanent: false, destination: '/sign' } };
 };

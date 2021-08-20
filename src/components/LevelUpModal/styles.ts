@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { fadeIn } from '../../styles/animations';
+import { fadeInUp } from '../../styles/animations';
 
 export const Overlay = styled.div`
   background: rgba(242, 243, 245, 0.8);
@@ -25,7 +25,7 @@ export const Container = styled.div`
   box-shadow: 0 0 60px rgba(0, 0, 0, 0.05);
   text-align: center;
   position: relative;
-  animation: ${fadeIn} 0.4s linear;
+  animation: ${fadeInUp} 0.4s linear;
 
   header {
     font-size: 8.75rem;
