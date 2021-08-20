@@ -62,7 +62,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
     return { props: {}, redirect: { permanent: false, destination: '/sign' } };
 
   const userData = await database.ref('users').child(userID).get();
-  console.log('userData = ', userData);
+
   if (userData.exists()) {
     return {
       props: {

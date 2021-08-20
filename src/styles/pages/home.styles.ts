@@ -21,7 +21,7 @@ export const Container = styled.div`
     flex: 1;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    gap: 1rem;
     align-content: center;
 
     > div {

@@ -9,9 +9,11 @@ import {
   authUser,
   createUser,
   handleExistUser,
+  isTokenValid,
   setToken,
   setUserID,
   TOKEN_KEY,
+  USER_ID,
 } from '../../services/auth';
 import { signInWithGoogle } from '../../services/firebase';
 
@@ -138,13 +140,18 @@ export default function Sign({ isLogged }: SignPageProps) {
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const userToken = ctx.req.cookies[TOKEN_KEY];
+  const userID = ctx.req.cookies[USER_ID];
 
-  if (userToken)
-    return { props: {}, redirect: { permanent: true, destination: '/home' } };
+  if (userToken && userID) {
+    const authUserData = await isTokenValid(userToken);
+
+    if (!authUserData.error)
+      return {
+        redirect: { permanent: false, destination: '/home' },
+      };
+  }
 
   return {
-    props: {
-      isLogged: true,
-    },
+    props: {},
   };
 };

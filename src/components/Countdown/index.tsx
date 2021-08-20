@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { CountdownContext } from '../../contexts/CountdownContext';
 import {
+  Container,
   CountdownButton,
   CountdownButtonActive,
   CountdownContainer,
@@ -20,7 +21,7 @@ export function Countdown() {
   const [secondLeft, secondRight] = String(seconds).padStart(2, '0').split('');
 
   return (
-    <div>
+    <Container>
       <CountdownContainer>
         <div>
           <span>{minuteLeft}</span>
@@ -48,6 +49,6 @@ export function Countdown() {
           )}
         </>
       )}
-    </div>
+    </Container>
   );
 }

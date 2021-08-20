@@ -37,8 +37,9 @@ export const setUserID = (userID: string) => {
   Cookies.set(USER_ID, userID);
 };
 
-export const removeToken = () => {
+export const removeTokens = () => {
   Cookies.remove(TOKEN_KEY);
+  Cookies.remove(USER_ID);
 };
 
 export const isTokenValid = async (token: string) => {
