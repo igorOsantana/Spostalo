@@ -14,10 +14,7 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
-}
+!firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
