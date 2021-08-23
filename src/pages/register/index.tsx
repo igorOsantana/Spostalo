@@ -2,23 +2,19 @@ import { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Formik, Form, FormikHelpers } from 'formik';
-import {
-  isTokenValid,
-  registerUser,
-  TOKEN_KEY,
-  USER_ID,
-} from '../../services/auth';
+import { firebaseAdmin } from '../../services/firebase_admin';
+import { registerUser, TOKEN_KEY } from '../../services/auth';
 import * as Yup from 'yup';
 
 import InputWithValidate from '../../components/Input';
 import Loader from '../../components/Loader';
 import Avatar from '../../components/Avatar';
+import ButtonDefault from '../../components/ButtonDefault';
 
 import {
   Body,
   Container,
   ContentForm,
-  Button,
   AvatarContent,
   FileAvatar,
 } from '../../styles/pages/register.styles';
@@ -58,6 +54,12 @@ export default function Register() {
   const handleInputFile = (e: React.ChangeEvent<HTMLInputElement>) =>
     setAvatarImg(e.currentTarget.files[0]);
 
+  const handleHasNoAvatar = async () => {
+    const response = await fetch('/icons/avatar-icon.png');
+    const blob = await response.blob();
+    return new File([blob], 'avatar-icon.png', blob);
+  };
+
   const handleSubmit = async (
     { email, password, name: username }: RegisterFormProps,
     { setSubmitting }: FormikHelpers<RegisterFormProps>
@@ -67,9 +69,7 @@ export default function Register() {
       email,
       password,
       username,
-      photoFile: avatarImg
-        ? avatarImg
-        : new File(['/icons/avatar-icon.png'], 'Avatar image'),
+      photoFile: avatarImg ? avatarImg : await handleHasNoAvatar(),
     });
     setIsLoading(false);
     setSubmitting(false);
@@ -125,7 +125,9 @@ export default function Register() {
                   />
                 </FileAvatar>
               </AvatarContent>
-              <Button type='submit'>{isLoading ? 'Salvando' : 'Salvar'}</Button>
+              <ButtonDefault type='submit'>
+                {isLoading ? 'Salvando' : 'Salvar'}
+              </ButtonDefault>
             </Form>
           </Formik>
         </ContentForm>
@@ -139,12 +141,17 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   const userToken = ctx.req.cookies[TOKEN_KEY];
 
   if (userToken) {
-    const authUserData = await isTokenValid(userToken);
+    try {
+      await firebaseAdmin.auth().verifyIdToken(userToken);
 
-    if (!authUserData.error)
       return {
         redirect: { permanent: false, destination: '/home' },
       };
+    } catch (error) {
+      return {
+        props: {} as never,
+      };
+    }
   }
 
   return {

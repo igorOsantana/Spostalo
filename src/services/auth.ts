@@ -63,9 +63,8 @@ export const createUser = async ({
   photoFile,
 }: CreateUserProps) => {
   const avatar =
-    !!photoFile && typeof photoFile === 'string'
-      ? photoFile
-      : '/icons/avatar-icon.png';
+    !!photoFile && typeof photoFile === 'string' ? photoFile : null;
+
   await database
     .ref()
     .child('users/' + userId)
@@ -80,6 +79,9 @@ export const createUser = async ({
 
   if (typeof photoFile !== 'string')
     await storage.ref().child(`images/users/${userId}/avatar`).put(photoFile);
+
+  console.log('TYPE OF = ', typeof photoFile);
+  console.log('AVATAR = ', photoFile);
 };
 
 export const registerUser = async ({
@@ -99,9 +101,10 @@ export const registerUser = async ({
     return true;
   } catch (error) {
     const { message } = error;
+    console.log('ERROR = ', message);
     switch (message) {
-      case 'EMAIL_EXISTS':
-        displayNotificationError('Esse email já esta em uso');
+      case 'The email address is already in use by another account.':
+        displayNotificationError('Esse email já está em uso');
         break;
       case 'INVALID_EMAIL':
         displayNotificationError('Email inválido');

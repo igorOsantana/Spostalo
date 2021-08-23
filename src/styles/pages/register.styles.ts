@@ -26,7 +26,6 @@ export const Container = styled.div`
 `;
 
 export const ContentForm = styled.div<LoadingProps>`
-  margin: 2rem;
   padding: 1rem 1.5rem;
   display: flex;
   flex-direction: column;
@@ -60,6 +59,11 @@ export const ContentForm = styled.div<LoadingProps>`
     align-items: center;
     width: 100%;
     padding: 0 1rem;
+
+    button {
+      align-self: flex-end;
+      background-color: ${({ theme: { colors } }) => colors.colorBlueTwitter};
+    }
   }
 `;
 
@@ -95,27 +99,6 @@ export const FileAvatar = styled.label`
 
   input[type='file'] {
     display: none;
-  }
-`;
-
-export const Button = styled.button`
-  align-self: flex-end;
-  margin: 1rem 0;
-  padding: 0.5rem 2rem;
-  font-size: 1.25rem;
-  font-weight: bold;
-  border: 1px solid transparent;
-  border-radius: 5px;
-  background-color: ${({ theme: { colors } }) => colors.colorBlueTwitter};
-  color: #fff;
-  transition: all 0.3s;
-
-  &:hover {
-    filter: opacity(0.8);
-  }
-
-  &:active {
-    transform: translateY(5px);
   }
 `;
 

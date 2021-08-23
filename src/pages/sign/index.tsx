@@ -4,27 +4,26 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Formik, Form, FormikHelpers } from 'formik';
+import { firebaseAdmin } from '../../services/firebase_admin';
 import * as Yup from 'yup';
 import {
   authUser,
   createUser,
   handleExistUser,
-  isTokenValid,
   setToken,
   TOKEN_KEY,
-  USER_ID,
 } from '../../services/auth';
 import { signInWithGoogle } from '../../services/firebase';
 
 import InputWithValidate from '../../components/Input';
 import Loader from '../../components/Loader';
+import ButtonDefault from '../../components/ButtonDefault';
 
 import {
   Body,
   Container,
   FormContent,
   ButtonsContainer,
-  Button,
   BtnSignInGoogle,
 } from '../../styles/pages/sign.styles';
 
@@ -123,7 +122,9 @@ export default function Sign({ isLogged }: SignPageProps) {
               />
               <ButtonsContainer>
                 <Link href='/register'>Não tenho conta</Link>
-                <Button>{isLoading ? 'Entrando' : 'Entrar'}</Button>
+                <ButtonDefault>
+                  {isLoading ? 'Entrando' : 'Entrar'}
+                </ButtonDefault>
               </ButtonsContainer>
               <BtnSignInGoogle type='button' onClick={handleAuthGoogle}>
                 Entrar com <span>Google</span>
@@ -139,15 +140,19 @@ export default function Sign({ isLogged }: SignPageProps) {
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const userToken = ctx.req.cookies[TOKEN_KEY];
-  const userID = ctx.req.cookies[USER_ID];
 
-  if (userToken && userID) {
-    const authUserData = await isTokenValid(userToken);
+  if (userToken) {
+    try {
+      await firebaseAdmin.auth().verifyIdToken(userToken);
 
-    if (!authUserData.error)
       return {
         redirect: { permanent: false, destination: '/home' },
       };
+    } catch (error) {
+      return {
+        props: {} as never,
+      };
+    }
   }
 
   return {

@@ -1,33 +1,47 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import ButtonDefault from '../components/ButtonDefault';
 
 import {
-  Body,
   Container,
-  FormContent,
-  ButtonsContainer,
-  Button,
-} from '../styles/pages/sign.styles';
+  BackgroundImage,
+  Body,
+  Description,
+} from '../styles/pages/welcome.styles';
 
-export default function Sign() {
+export default function Welcome() {
   return (
-    <Body>
+    <Container>
       <Head>
-        <title>Sign | Spostalo</title>
+        <title>Bem-vindo | Spostalo</title>
       </Head>
-      <Container>
-        <FormContent>
+      <Body>
+        <Description>
           <h1>Spostalo</h1>
+          <h2>Técnica de pomodoro</h2>
           <p>
-            Mantenha o <strong>foco</strong> nos seus objetivos com{' '}
-            <strong>saúde</strong>
+            Uma técnica desenvolvida para{' '}
+            <strong>aumentar sua produtividade</strong>, que basea-se em
+            gerenciar sua concentração e foco durante seus estudos ou trabalho.
+            <a
+              href='https://pt.wikipedia.org/wiki/T%C3%A9cnica_pomodoro'
+              target='_blank'
+            >
+              Saiba mais
+            </a>
           </p>
-          <div>
-            <Link href='/register'>Não tenho conta</Link>
-            <Button>Entrar</Button>
-          </div>
-        </FormContent>
-      </Container>
-    </Body>
+          <p>
+            Inicie um ciclo e <strong>foque</strong> no que importa durante o
+            tempo determinado. Ao fim do ciclo, complete o{' '}
+            <strong>desafio</strong> e faça um breve descanço antes de começar
+            outro ciclo.
+          </p>
+          <ButtonDefault>
+            <Link href='/sign'>Conhecer</Link>
+          </ButtonDefault>
+        </Description>
+        <BackgroundImage />
+      </Body>
+    </Container>
   );
 }

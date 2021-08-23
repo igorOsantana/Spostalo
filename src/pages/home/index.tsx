@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { TOKEN_KEY } from '../../services/auth';
-import { auth, database, storage } from '../../services/firebase';
+import { database, storage } from '../../services/firebase';
 
 import { CompletedChallenges } from '../../components/CompletedChallenges';
 import { ExperienceBar } from '../../components/ExperienceBar';
@@ -25,6 +25,7 @@ export default function Home(
     currentExperience: data.currentExperience,
     challengesCompleted: data.challengesCompleted,
   };
+
   return (
     <ChallengesProvider
       userID={id}
@@ -102,7 +103,6 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
       };
     }
   } catch (error) {
-    console.log(error.message);
     return {
       props: {} as never,
       redirect: { permanent: false, destination: '/sign' },

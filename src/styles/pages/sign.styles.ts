@@ -78,25 +78,6 @@ export const ButtonsContainer = styled.div`
   }
 `;
 
-export const Button = styled.button`
-  padding: 0.5rem 1.5rem;
-  font-size: 1.25rem;
-  font-weight: bold;
-  border: 1px solid transparent;
-  border-radius: 5px;
-  background-color: ${({ theme: { colors } }) => colors.colorRed};
-  color: #fff;
-  transition: all 0.3s;
-
-  &:hover {
-    filter: opacity(0.8);
-  }
-
-  &:active {
-    transform: translateY(5px);
-  }
-`;
-
 export const BtnSignInGoogle = styled.button`
   margin: 1rem;
   padding: 0.75rem 1.5rem;
