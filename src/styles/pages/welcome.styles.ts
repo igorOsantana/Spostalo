@@ -7,6 +7,8 @@ export const Container = styled.main`
   padding: 5rem 2rem;
   width: 100vw;
   height: 100vh;
+  background-color: #2e3138;
+  opacity: 0.99;
 `;
 
 export const BackgroundImage = styled.div`
@@ -40,7 +42,7 @@ export const Description = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 500px;
-  color: ${({ theme: { colors } }) => colors.text};
+  color: #dedbd2;
 
   h1 {
     margin: 1rem 0;
