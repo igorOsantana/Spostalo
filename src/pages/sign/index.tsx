@@ -105,7 +105,10 @@ export default function Sign({ isLogged }: SignPageProps) {
             onSubmit={handleSubmit}
           >
             <Form>
-              <h1>Spostalo</h1>
+              <h1>Entrar</h1>
+              <BtnSignInGoogle type='button' onClick={handleAuthGoogle}>
+                com <span>Google</span>
+              </BtnSignInGoogle>
               <p>
                 Mantenha o <strong>foco</strong> nos seus objetivos com{' '}
                 <strong>saúde</strong>
@@ -126,9 +129,6 @@ export default function Sign({ isLogged }: SignPageProps) {
                   {isLoading ? 'Entrando' : 'Entrar'}
                 </ButtonDefault>
               </ButtonsContainer>
-              <BtnSignInGoogle type='button' onClick={handleAuthGoogle}>
-                Entrar com <span>Google</span>
-              </BtnSignInGoogle>
             </Form>
           </Formik>
         </FormContent>

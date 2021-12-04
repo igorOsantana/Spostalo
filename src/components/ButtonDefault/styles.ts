@@ -10,7 +10,7 @@ export const Container = styled.button`
   font-size: 1.25rem;
   font-weight: bold;
   border: 1px solid transparent;
-  border-radius: 5px;
+  border-radius: 3px;
   background-color: ${({ color, theme: { colors } }) =>
     color ? color : colors.colorRed};
   color: #fff;
